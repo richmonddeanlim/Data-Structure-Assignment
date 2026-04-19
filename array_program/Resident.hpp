@@ -1,4 +1,3 @@
-//this represent a single resident record and will be used by both the array and linked list program.
 #pragma once
 #include <string>
 
