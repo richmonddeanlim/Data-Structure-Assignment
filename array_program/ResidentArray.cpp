@@ -61,6 +61,18 @@ ResidentArray::ResidentArray(const ResidentArray& other) {
     }
 }
 
+int ResidentArray::size() const {
+    return count;
+}
+
+int ResidentArray::getCapacity() const {
+    return capacity;
+}
+
+void ResidentArray::clear() {
+    count = 0;
+}
+
 ResidentArray& ResidentArray::operator=(const ResidentArray& other) {
     if (this == &other) return *this;      
 
