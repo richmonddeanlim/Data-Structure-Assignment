@@ -1,4 +1,5 @@
 // run with g++ main.cpp ResidentArray.cpp CSVLoader.cpp -o program
+// then execute with: ./program
 #include "ResidentArray.hpp"
 #include "CSVLoader.hpp"
 #include <iostream>
