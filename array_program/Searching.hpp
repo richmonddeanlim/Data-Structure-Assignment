@@ -8,7 +8,7 @@ namespace Searching {
     void linearSearchTransport(const ResidentArray& arr, std::string mode);
     void linearSearchDistance(const ResidentArray& arr, int threshold);
 
-    // Binary Search Functions (Requirement 7b - Optimized for ranges)
+    // Binary Search Functions
     void binarySearchAge(const ResidentArray& arr, int minAge, int maxAge);
     void binarySearchTransport(const ResidentArray& arr, std::string mode);
     void binarySearchDistance(const ResidentArray& arr, int threshold);
