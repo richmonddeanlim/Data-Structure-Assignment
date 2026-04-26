@@ -1,7 +1,7 @@
-// run with g++ main.cpp ResidentArray.cpp CSVLoader.cpp -o program
-// then execute with: ./program
 #include "ResidentArray.hpp"
 #include "CSVLoader.hpp"
+#include "Searching.hpp"
+#include "Sorting.hpp"
 #include <iostream>
 #include <iomanip>
 #include <limits>
@@ -49,6 +49,67 @@ static void printStatus(const ResidentArray& arr) {
     cout << "--------------------\n";
 }
 
+static void searchMenu(ResidentArray& residents) {
+    int dataState, algorithm, criteria;
+
+    cout << "\n--- Search Resident (ARRAY) ---" << endl;
+    cout << "Select Data State:" << endl;
+    cout << "1. Unsorted Data" << endl;
+    cout << "2. Sorted Data" << endl;
+    cout << "3. Back" << endl;
+    cout << "Choice: ";
+    cin >> dataState;
+
+    if (dataState == 3) return;
+
+    cout << "\nSelect Algorithm:" << endl;
+    cout << "1. Linear Search" << endl;
+    cout << "2. Binary Search" << endl;
+    cout << "Choice: ";
+    cin >> algorithm;
+
+    cout << "\nSelect Criteria:" << endl;
+    cout << "1. Age Range" << endl;
+    cout << "2. Mode of Transport" << endl;
+    cout << "3. Distance Threshold" << endl;
+    cout << "Choice: ";
+    cin >> criteria;
+
+    // Trigger Sorting if "Sorted Data" is selected
+    if (dataState == 2) {
+        cout << "\n[Running Sorting Experiment...]" << endl;
+        double sortTime = 0;
+        if (criteria == 1) sortTime = Sorting::sortByAge(residents);
+        else if (criteria == 2) sortTime = Sorting::sortByTransport(residents);
+        else if (criteria == 3) sortTime = Sorting::sortByDistance(residents);
+        cout << "Selection Sort completed in " << fixed << setprecision(6) << sortTime << " seconds." << endl;
+    } else if (algorithm == 2) {
+        cout << "\nWARNING: Binary search on unsorted data may produce incorrect results!" << endl;
+    }
+
+    // Execute Search
+    if (criteria == 1) {
+        int minAge, maxAge;
+        cout << "Enter min age: "; cin >> minAge;
+        cout << "Enter max age: "; cin >> maxAge;
+        if (algorithm == 1) Searching::linearSearchAge(residents, minAge, maxAge);
+        else Searching::binarySearchAge(residents, minAge, maxAge);
+    } 
+    else if (criteria == 2) {
+        string mode;
+        cout << "Enter mode of transport: ";
+        cin >> mode;
+        if (algorithm == 1) Searching::linearSearchTransport(residents, mode);
+        else Searching::binarySearchTransport(residents, mode);
+    }
+    else if (criteria == 3) {
+        int threshold;
+        cout << "Enter distance threshold: "; cin >> threshold;
+        if (algorithm == 1) Searching::linearSearchDistance(residents, threshold);
+        else Searching::binarySearchDistance(residents, threshold);
+    }
+}
+
 static void printMenu() {
     cout << "\n==========================================\n";
     cout << "  URBAN CARBON EMISSION ANALYSIS - ARRAY  \n";
@@ -57,6 +118,7 @@ static void printMenu() {
     cout << "  2. Show array status\n";
     cout << "  3. Display first 20 residents\n";
     cout << "  4. Display ALL residents\n";
+    cout << "  5. Search Resident\n";
     cout << "  0. Exit\n";
     cout << "------------------------------------------\n";
     cout << "  Choice: ";
@@ -101,6 +163,7 @@ int main() {
             case 2: printStatus(residents);    break;
             case 3: printTable(residents, 20); break;
             case 4: printTable(residents);     break;
+            case 5: searchMenu(residents);     break;
             default: cout << "Invalid choice.\n"; break;
         }
     }
