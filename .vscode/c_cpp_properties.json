@@ -3,7 +3,8 @@
         {
             "name": "Win32",
             "includePath": [
-                "${default}"
+                "${default}",
+                "${workspaceFolder}/Data-Structure-Assignment/linked_list"
             ],
             "defines": [
                 "_DEBUG",
