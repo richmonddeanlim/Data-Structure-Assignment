@@ -65,6 +65,10 @@ bool LinkedList::isEmpty() {
     return head == nullptr;
 }
 
+Node* LinkedList::getHead() const {
+    return head;
+}
+
 LinkedList::~LinkedList() {
     Node* temp = head;
     while (temp != nullptr) {

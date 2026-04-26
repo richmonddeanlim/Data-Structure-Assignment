@@ -14,5 +14,6 @@ public:
     void displayResidents();
     void removeResident(string residentID);
     bool isEmpty();
+    Node* getHead() const;
     ~LinkedList();
 };

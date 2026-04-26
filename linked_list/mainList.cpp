@@ -1,10 +1,73 @@
 #include "Residents.hpp"
 #include "LinkedList.hpp"
 #include "CSVLoaderList.hpp"
+#include "SearchingList.hpp"
+#include "SortingList.hpp"
 #include <iostream>
 #include <iomanip>
 
 using namespace std;
+
+void searchMenu(LinkedList& list) {
+    int dataState, algorithm, criteria;
+
+    cout << "\n--- Search Resident ---" << endl;
+    cout << "Select Data State:" << endl;
+    cout << "1. Unsorted Data" << endl;
+    cout << "2. Sorted Data" << endl;
+    cout << "3. Back" << endl;
+    cout << "Choice: ";
+    cin >> dataState;
+
+    if (dataState == 3) return;
+
+    cout << "\nSelect Algorithm:" << endl;
+    cout << "1. Linear Search" << endl;
+    cout << "2. Binary Search" << endl;
+    cout << "Choice: ";
+    cin >> algorithm;
+
+    cout << "\nSelect Criteria:" << endl;
+    cout << "1. Age Range" << endl;
+    cout << "2. Mode of Transport" << endl;
+    cout << "3. Distance Threshold" << endl;
+    cout << "Choice: ";
+    cin >> criteria;
+
+    // Trigger Sorting if "Sorted Data" is selected
+    if (dataState == 2) {
+        cout << "\n[Running Sorting Experiment...]" << endl;
+        double sortTime = 0;
+        if (criteria == 1) sortTime = SortingList::sortByAge(list);
+        else if (criteria == 2) sortTime = SortingList::sortByTransport(list);
+        else if (criteria == 3) sortTime = SortingList::sortByDistance(list);
+        cout << "Selection Sort completed in " << fixed << setprecision(6) << sortTime << " seconds." << endl;
+    } else if (algorithm == 2) {
+        cout << "\nWARNING: Binary search on unsorted data may produce incorrect results!" << endl;
+    }
+
+    // Execute Search
+    if (criteria == 1) {
+        int minAge, maxAge;
+        cout << "Enter min age: "; cin >> minAge;
+        cout << "Enter max age: "; cin >> maxAge;
+        if (algorithm == 1) SearchingList::linearSearchAge(list, minAge, maxAge);
+        else SearchingList::binarySearchAge(list, minAge, maxAge);
+    } 
+    else if (criteria == 2) {
+        string mode;
+        cout << "Enter mode of transport: ";
+        cin >> mode;
+        if (algorithm == 1) SearchingList::linearSearchTransport(list, mode);
+        else SearchingList::binarySearchTransport(list, mode);
+    }
+    else if (criteria == 3) {
+        int threshold;
+        cout << "Enter distance threshold: "; cin >> threshold;
+        if (algorithm == 1) SearchingList::linearSearchDistance(list, threshold);
+        else SearchingList::binarySearchDistance(list, threshold);
+    }
+}
 
 void menu (LinkedList& list) {
     int option;
@@ -13,26 +76,20 @@ void menu (LinkedList& list) {
         cout << "1. Add Resident" << endl;
         cout << "2. Display Residents" << endl;
         cout << "3. Remove Resident" << endl;
-        cout << "4. Back" << endl;
+        cout << "4. Search Resident" << endl;
+        cout << "5. Back" << endl;
         cout << "Select an option: ";
         cin >> option;
         switch(option){
             case 1: {
                 Residents r;
-                cout << "Enter Resident ID: ";
-                cin >> r.residentID;    
-                cout << "Enter Age: ";
-                cin >> r.age;
-                cout << "Enter Mode of Transport: ";
-                cin >> r.modeOfTransport;
-                cout << "Enter Daily Distance: ";
-                cin >> r.dailyDistance;
-                cout << "Enter Carbon Emission Factor: ";
-                cin >> r.carbonEmissionFactor;
-                cout << "Enter Average Days per Month: ";
-                cin >> r.avgDayPerMonth;
-                cout << "Enter City: ";
-                cin >> r.city;
+                cout << "Enter Resident ID: "; cin >> r.residentID;    
+                cout << "Enter Age: "; cin >> r.age;
+                cout << "Enter Mode of Transport: "; cin >> r.modeOfTransport;
+                cout << "Enter Daily Distance: "; cin >> r.dailyDistance;
+                cout << "Enter Carbon Emission Factor: "; cin >> r.carbonEmissionFactor;
+                cout << "Enter Average Days per Month: "; cin >> r.avgDayPerMonth;
+                cout << "Enter City: "; cin >> r.city;
                 list.addResident(r);
                 break;
             }
@@ -47,14 +104,18 @@ void menu (LinkedList& list) {
                 break;
             }
             case 4:
+                searchMenu(list);
+                break;
+            case 5:
                 cout << "Going back..." << endl;
                 return;
             default:
                 cout << "Invalid option. Please choose a valid option!" << endl;
                 break;
         }
-    }while (option != 4);
+    }while (option != 5);
 }
+
 int main() {
     LinkedList cityA, cityB, cityC;
     CSVLoaderList load;
@@ -104,4 +165,3 @@ int main() {
     } while(choice != 5);
     return 0;
 }
-
