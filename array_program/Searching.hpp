@@ -14,5 +14,5 @@ namespace Searching {
     void binarySearchDistance(const ResidentArray& arr, int threshold);
 
     // Helper to print search results
-    void printSearchResultTable(const ResidentArray& results, double timeTakenMs);
+    void printSearchResultTable(const ResidentArray& results, double timeTakenMs, size_t memoryUsedBytes);
 }

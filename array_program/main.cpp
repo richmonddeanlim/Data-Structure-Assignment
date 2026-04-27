@@ -62,11 +62,19 @@ static void searchMenu(ResidentArray& residents) {
 
     if (dataState == 3) return;
 
-    cout << "\nSelect Algorithm:" << endl;
-    cout << "1. Linear Search" << endl;
-    cout << "2. Binary Search" << endl;
-    cout << "Choice: ";
-    cin >> algorithm;
+    if (dataState == 1) {
+        cout << "\nSelect Algorithm:" << endl;
+        cout << "1. Linear Search" << endl;
+        cout << "Choice: ";
+        cin >> algorithm;
+        algorithm = 1; // Ensure it stays 1 even if they type something else
+    } else {
+        cout << "\nSelect Algorithm:" << endl;
+        cout << "1. Linear Search" << endl;
+        cout << "2. Binary Search" << endl;
+        cout << "Choice: ";
+        cin >> algorithm;
+    }
 
     cout << "\nSelect Criteria:" << endl;
     cout << "1. Age Range" << endl;
@@ -83,8 +91,6 @@ static void searchMenu(ResidentArray& residents) {
         else if (criteria == 2) sortTime = Sorting::sortByTransport(residents);
         else if (criteria == 3) sortTime = Sorting::sortByDistance(residents);
         cout << "Selection Sort completed in " << fixed << setprecision(6) << sortTime << " seconds." << endl;
-    } else if (algorithm == 2) {
-        cout << "\nWARNING: Binary search on unsorted data may produce incorrect results!" << endl;
     }
 
     // Execute Search

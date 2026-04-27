@@ -1,3 +1,5 @@
+#include <windows.h>
+#include <psapi.h>
 #include "Searching.hpp"
 #include <iostream>
 #include <iomanip>
@@ -7,6 +9,14 @@ using namespace std;
 using namespace std::chrono;
 
 namespace Searching {
+
+    static size_t getMemoryUsage() {
+        PROCESS_MEMORY_COUNTERS_EX pmc;
+        if (GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc))) {
+            return pmc.PrivateUsage;
+        }
+        return 0;
+    }
 
     static void printHeader() {
         cout << "+-------+-----+---------------+----------+---------+------+------------+\n";
@@ -21,10 +31,11 @@ namespace Searching {
         cout << "+-------+-----+---------------+----------+---------+------+------------+\n";
     }
 
-    void printSearchResultTable(const ResidentArray& results, double timeTakenMs) {
+    void printSearchResultTable(const ResidentArray& results, double timeTakenMs, size_t memoryUsedBytes) {
         if (results.size() == 0) {
             cout << "\nNo residents found matching the criteria.\n";
             cout << "Search execution time: " << fixed << setprecision(4) << timeTakenMs << " ms\n";
+            cout << "Memory consumption   : " << (memoryUsedBytes / 1024.0) << " KB\n";
             return;
         }
 
@@ -43,46 +54,57 @@ namespace Searching {
         cout << "+-------+-----+---------------+----------+---------+------+------------+\n";
         cout << "Found " << results.size() << " matches.\n";
         cout << "Search execution time: " << fixed << setprecision(4) << timeTakenMs << " ms\n";
+        cout << "Memory consumption   : " << (memoryUsedBytes / 1024.0) << " KB\n";
     }
 
     void linearSearchAge(const ResidentArray& arr, int minAge, int maxAge) {
         ResidentArray matches;
+        size_t memStart = getMemoryUsage();
         auto start = high_resolution_clock::now();
         for (int i = 0; i < arr.size(); i++) {
             const Resident& r = arr.get(i);
             if (r.age >= minAge && r.age <= maxAge) matches.add(r);
         }
         auto end = high_resolution_clock::now();
+        size_t memEnd = getMemoryUsage();
         duration<double, milli> elapsed = end - start;
-        printSearchResultTable(matches, elapsed.count());
+        size_t diff = (memEnd > memStart) ? (memEnd - memStart) : 0;
+        printSearchResultTable(matches, elapsed.count(), diff);
     }
 
     void linearSearchTransport(const ResidentArray& arr, string mode) {
         ResidentArray matches;
+        size_t memStart = getMemoryUsage();
         auto start = high_resolution_clock::now();
         for (int i = 0; i < arr.size(); i++) {
             const Resident& r = arr.get(i);
             if (r.modeOfTransport == mode) matches.add(r);
         }
         auto end = high_resolution_clock::now();
+        size_t memEnd = getMemoryUsage();
         duration<double, milli> elapsed = end - start;
-        printSearchResultTable(matches, elapsed.count());
+        size_t diff = (memEnd > memStart) ? (memEnd - memStart) : 0;
+        printSearchResultTable(matches, elapsed.count(), diff);
     }
 
     void linearSearchDistance(const ResidentArray& arr, int threshold) {
         ResidentArray matches;
+        size_t memStart = getMemoryUsage();
         auto start = high_resolution_clock::now();
         for (int i = 0; i < arr.size(); i++) {
             const Resident& r = arr.get(i);
             if (r.dailyDistance > threshold) matches.add(r);
         }
         auto end = high_resolution_clock::now();
+        size_t memEnd = getMemoryUsage();
         duration<double, milli> elapsed = end - start;
-        printSearchResultTable(matches, elapsed.count());
+        size_t diff = (memEnd > memStart) ? (memEnd - memStart) : 0;
+        printSearchResultTable(matches, elapsed.count(), diff);
     }
 
     void binarySearchAge(const ResidentArray& arr, int minAge, int maxAge) {
         ResidentArray matches;
+        size_t memStart = getMemoryUsage();
         auto start = high_resolution_clock::now();
         int low = 0, high = arr.size() - 1, startIndex = -1;
         while (low <= high) {
@@ -97,16 +119,18 @@ namespace Searching {
             }
         }
         auto end = high_resolution_clock::now();
+        size_t memEnd = getMemoryUsage();
         duration<double, milli> elapsed = end - start;
-        printSearchResultTable(matches, elapsed.count());
+        size_t diff = (memEnd > memStart) ? (memEnd - memStart) : 0;
+        printSearchResultTable(matches, elapsed.count(), diff);
     }
 
     void binarySearchTransport(const ResidentArray& arr, string mode) {
         ResidentArray matches;
+        size_t memStart = getMemoryUsage();
         auto start = high_resolution_clock::now();
         int low = 0, high = arr.size() - 1, startIndex = -1;
 
-        // Find the first occurrence alphabetically
         while (low <= high) {
             int mid = low + (high - low) / 2;
             if (arr.get(mid).modeOfTransport >= mode) {
@@ -122,21 +146,23 @@ namespace Searching {
             }
         }
         auto end = high_resolution_clock::now();
+        size_t memEnd = getMemoryUsage();
         duration<double, milli> elapsed = end - start;
-        printSearchResultTable(matches, elapsed.count());
+        size_t diff = (memEnd > memStart) ? (memEnd - memStart) : 0;
+        printSearchResultTable(matches, elapsed.count(), diff);
     }
 
     void binarySearchDistance(const ResidentArray& arr, int threshold) {
         ResidentArray matches;
+        size_t memStart = getMemoryUsage();
         auto start = high_resolution_clock::now();
         int low = 0, high = arr.size() - 1, startIndex = -1;
 
-        // Find the first index where distance > threshold
         while (low <= high) {
             int mid = low + (high - low) / 2;
             if (arr.get(mid).dailyDistance > threshold) {
                 startIndex = mid;
-                high = mid - 1; // Look left for an even smaller index that is still > threshold
+                high = mid - 1;
             } else {
                 low = mid + 1;
             }
@@ -148,7 +174,9 @@ namespace Searching {
             }
         }
         auto end = high_resolution_clock::now();
+        size_t memEnd = getMemoryUsage();
         duration<double, milli> elapsed = end - start;
-        printSearchResultTable(matches, elapsed.count());
+        size_t diff = (memEnd > memStart) ? (memEnd - memStart) : 0;
+        printSearchResultTable(matches, elapsed.count(), diff);
     }
 }
