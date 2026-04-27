@@ -111,12 +111,85 @@ void menu (LinkedList& list) {
     }while (option != 5);
 }
 
-int main() {
-    LinkedList cityA, cityB, cityC;
-    CSVLoaderList load;
-    load.loadFile("../dataset/dataset1-cityA.csv", cityA);
-    load.loadFile("../dataset/dataset2-cityB.csv", cityB);
-    load.loadFile("../dataset/dataset3-cityC.csv", cityC);  
+void allcities(LinkedList& cityA, LinkedList& cityB, LinkedList& cityC) {
+    int option;
+    do {
+        cout << "==============================" << endl;
+        cout << "1. Add Resident "<< endl;
+        cout << "2. Display Residents" << endl;
+        cout << "3. Remove Resident" << endl;
+        cout << "4. Back" << endl;
+        cout << "Select an option: ";
+        cin >> option;
+        switch(option){
+            case 1: {
+                Residents r;
+                cout << "Enter Resident ID: "; cin >> r.residentID;    
+                cout << "Enter Age: "; cin >> r.age;
+                cout << "Enter Mode of Transport: "; cin >> r.modeOfTransport;
+                cout << "Enter Daily Distance: "; cin >> r.dailyDistance;
+                cout << "Enter Carbon Emission Factor: "; cin >> r.carbonEmissionFactor;
+                cout << "Enter Average Days per Month: "; cin >> r.avgDayPerMonth;
+                cout << "Enter City (City A, City B, City C): ";
+                cin.ignore();
+                getline(cin, r.city);
+                if (r.city == "City A") {
+                    cityA.addResident(r);
+                }
+                else if (r.city == "City B") {
+                    cityB.addResident(r);
+                }
+                else if (r.city == "City C") {
+                    cityC.addResident(r);
+                }
+                else {
+                    cout << "Invalid city. Please enter a valid city." << endl;
+                }
+                break;
+            }
+
+            case 2:
+                cout << "\n=== City A Residents ===" << endl;
+                cityA.displayResidents();
+                cout << "\n=== City B Residents ===" << endl;
+                cityB.displayResidents();
+                cout << "\n=== City C Residents ===" << endl;
+                cityC.displayResidents();
+                break;
+
+            case 3: {
+                string residentid, city;
+                cout << "Enter Resident ID to remove: ";
+                cin >> residentid;
+                cout << "Enter City (City A, City B, City C): ";
+                cin >> city;
+                if (city == "City A") {
+                    cityA.removeResident(residentid);
+                }
+                else if (city == "City B") {
+                    cityB.removeResident(residentid);
+                }
+                else if (city == "City C") {
+                    cityC.removeResident(residentid);
+                }
+                else {
+                    cout << "Invalid city. No resident removed." << endl;
+                }
+                break;
+            }
+
+            case 4:
+                cout << "Going back..." << endl;
+                return;
+
+            default:
+                cout << "Invalid option. Please choose a valid option!" << endl;
+                break;
+        }
+    } while (option != 4);
+}
+
+void showMenu() {
     cout << "==============================" << endl;
     cout << "City Carbon Emission Analysis" << endl;
     cout << "==============================" << endl;
@@ -126,6 +199,15 @@ int main() {
     cout << "3. City C" << endl;
     cout << "4. All Cities" << endl;
     cout << "5. Exit" << endl;
+}
+
+int main() {
+    LinkedList cityA, cityB, cityC;
+    CSVLoaderList load;
+    load.loadFile("../dataset/dataset1-cityA.csv", cityA, "City A");
+    load.loadFile("../dataset/dataset2-cityB.csv", cityB, "City B");
+    load.loadFile("../dataset/dataset3-cityC.csv", cityC, "City C");
+    showMenu();
     int choice;
     cin >> choice;
     do{
@@ -144,9 +226,7 @@ int main() {
                 break;
             case 4:
                 cout << "All Cities: " << endl;
-                cityA.displayResidents();
-                cityB.displayResidents();
-                cityC.displayResidents();
+                allcities(cityA, cityB, cityC);
                 break;
             case 5:
                 cout << "Exiting... " << endl;
@@ -155,7 +235,7 @@ int main() {
                 cout << "Invalid choice. Please choose a valid option!" << endl;
                 break;
         }
-        cout << "Select a city: ";
+        showMenu();
         cin >> choice;
     } while(choice != 5);
     return 0;

@@ -4,5 +4,5 @@
 
 class CSVLoaderList {
 public:
-    void loadFile(string filename, LinkedList& list);
+    void loadFile(string filename, LinkedList& list, string city);
 };

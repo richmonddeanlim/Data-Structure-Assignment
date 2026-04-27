@@ -3,7 +3,7 @@
 #include <sstream>  
 #include <iostream>
 
-void CSVLoaderList::loadFile(string filename, LinkedList& list) {
+void CSVLoaderList::loadFile(string filename, LinkedList& list, string city) {
     ifstream file(filename);
     if (file.is_open()) {
         string line;
@@ -24,7 +24,7 @@ void CSVLoaderList::loadFile(string filename, LinkedList& list) {
             r.carbonEmissionFactor = stod(temp);
             getline(s, temp, ',');
             r.avgDayPerMonth = stoi(temp);
-            getline(s, r.city);
+            r.city = city;
             list.addResident(r);
         }; 
     }
