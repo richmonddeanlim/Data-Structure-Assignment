@@ -64,6 +64,7 @@ void searchMenu(LinkedList& list) {
     }
 }
 
+// The menu function to display the operations.
 void menu (LinkedList& list) {
     int option;
     do {
@@ -111,6 +112,7 @@ void menu (LinkedList& list) {
     }while (option != 5);
 }
 
+// the function to display the menu for all cities.
 void allcities(LinkedList& cityA, LinkedList& cityB, LinkedList& cityC) {
     int option;
     do {
@@ -189,6 +191,7 @@ void allcities(LinkedList& cityA, LinkedList& cityB, LinkedList& cityC) {
     } while (option != 4);
 }
 
+// the function to display the main menu for city selection
 void showMenu() {
     cout << "==============================" << endl;
     cout << "City Carbon Emission Analysis" << endl;
@@ -201,6 +204,7 @@ void showMenu() {
     cout << "5. Exit" << endl;
 }
 
+// the main function to load the datasets into the linked list and display the menu for ciy selectio and operations.
 int main() {
     LinkedList cityA, cityB, cityC;
     CSVLoaderList load;

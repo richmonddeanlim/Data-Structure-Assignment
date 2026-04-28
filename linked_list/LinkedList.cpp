@@ -1,9 +1,11 @@
 #include "LinkedList.hpp"
 
+// to initialize the head pointer to nullptr (constructor).
 LinkedList::LinkedList() {
     head = nullptr;
 }
 
+// the method to add a resident to the linked list by creating a new node and link it at the end of the linked list.
 void LinkedList::addResident(Residents r) {
     Node* newNode = new Node(r);
     if (head == nullptr) {
@@ -17,6 +19,7 @@ void LinkedList::addResident(Residents r) {
     }
 }
 
+// the method to display all the residents from selected city(s) in a formatted table.
 void LinkedList::displayResidents() {
     Node* temp = head;
     cout << setfill('=') << setw(126) << "" << setfill(' ') << endl;
@@ -42,6 +45,7 @@ void LinkedList::displayResidents() {
     cout << setfill('=') << setw(126) << "" << setfill(' ') << endl;    
 }
 
+// the method to remove a resident from a linkedlist by using residentID as the keyword.
 void LinkedList::removeResident(string residentID) {
     Node* temp = head;
     Node* previous = nullptr;
@@ -61,14 +65,17 @@ void LinkedList::removeResident(string residentID) {
     cout << "Resident ID: " << residentID << " not found." << endl;
 }
 
+// the method to check if the linked list is empty or not by checking the header pointer is whether nullptr or not.
 bool LinkedList::isEmpty() {
     return head == nullptr;
 }
 
+// the method to return the head pointer from the linked list.
 Node* LinkedList::getHead() const {
     return head;
 }
 
+// the destructor for the nodes in the linked list.
 LinkedList::~LinkedList() {
     Node* temp = head;
     while (temp != nullptr) {
