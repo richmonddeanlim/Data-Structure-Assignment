@@ -3,6 +3,7 @@
 #include <string>
 using namespace std;
 
+// The residents struct that contains the attributes of the residents.
 struct Residents {
     string residentID;
     int age;
