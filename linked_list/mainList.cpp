@@ -21,11 +21,19 @@ void searchMenu(LinkedList& list) {
 
     if (dataState == 3) return;
 
-    cout << "\nSelect Algorithm:" << endl;
-    cout << "1. Linear Search" << endl;
-    cout << "Choice: ";
-    cin >> algorithm;
-    algorithm = 1; // Force Linear Search for Linked List
+    if (dataState == 1) {
+        cout << "\nSelect Algorithm:" << endl;
+        cout << "1. Linear Search" << endl;
+        cout << "Choice: ";
+        cin >> algorithm;
+        algorithm = 1; 
+    } else {
+        cout << "\nSelect Algorithm:" << endl;
+        cout << "1. Linear Search" << endl;
+        cout << "2. Binary Search" << endl;
+        cout << "Choice: ";
+        cin >> algorithm;
+    }
 
     cout << "\nSelect Criteria:" << endl;
     cout << "1. Age Range" << endl;
@@ -49,18 +57,21 @@ void searchMenu(LinkedList& list) {
         int minAge, maxAge;
         cout << "Enter min age: "; cin >> minAge;
         cout << "Enter max age: "; cin >> maxAge;
-        SearchingList::linearSearchAge(list, minAge, maxAge);
+        if (algorithm == 1) SearchingList::linearSearchAge(list, minAge, maxAge);
+        else SearchingList::binarySearchAge(list, minAge, maxAge);
     } 
     else if (criteria == 2) {
         string mode;
         cout << "Enter mode of transport: ";
         cin >> mode;
-        SearchingList::linearSearchTransport(list, mode);
+        if (algorithm == 1) SearchingList::linearSearchTransport(list, mode);
+        else SearchingList::binarySearchTransport(list, mode);
     }
     else if (criteria == 3) {
         int threshold;
         cout << "Enter distance threshold: "; cin >> threshold;
-        SearchingList::linearSearchDistance(list, threshold);
+        if (algorithm == 1) SearchingList::linearSearchDistance(list, threshold);
+        else SearchingList::binarySearchDistance(list, threshold);
     }
 }
 
