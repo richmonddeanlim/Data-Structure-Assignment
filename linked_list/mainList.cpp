@@ -79,13 +79,20 @@ void menu (LinkedList& list) {
         switch(option){
             case 1: {
                 Residents r;
-                cout << "Enter Resident ID: "; cin >> r.residentID;    
-                cout << "Enter Age: "; cin >> r.age;
-                cout << "Enter Mode of Transport: "; cin >> r.modeOfTransport;
-                cout << "Enter Daily Distance: "; cin >> r.dailyDistance;
-                cout << "Enter Carbon Emission Factor: "; cin >> r.carbonEmissionFactor;
-                cout << "Enter Average Days per Month: "; cin >> r.avgDayPerMonth;
-                cout << "Enter City: "; cin >> r.city;
+                cout << "Enter Resident ID: "; 
+                cin >> r.residentID;    
+                cout << "Enter Age: "; 
+                cin >> r.age;
+                cout << "Enter Mode of Transport: "; 
+                cin >> r.modeOfTransport;
+                cout << "Enter Daily Distance: "; 
+                cin >> r.dailyDistance;
+                cout << "Enter Carbon Emission Factor: "; 
+                cin >> r.carbonEmissionFactor;
+                cout << "Enter Average Days per Month: "; 
+                cin >> r.avgDayPerMonth;
+                cout << "Enter City: "; 
+                cin >> r.city;
                 list.addResident(r);
                 break;
             }
@@ -126,12 +133,18 @@ void allcities(LinkedList& cityA, LinkedList& cityB, LinkedList& cityC) {
         switch(option){
             case 1: {
                 Residents r;
-                cout << "Enter Resident ID: "; cin >> r.residentID;    
-                cout << "Enter Age: "; cin >> r.age;
-                cout << "Enter Mode of Transport: "; cin >> r.modeOfTransport;
-                cout << "Enter Daily Distance: "; cin >> r.dailyDistance;
-                cout << "Enter Carbon Emission Factor: "; cin >> r.carbonEmissionFactor;
-                cout << "Enter Average Days per Month: "; cin >> r.avgDayPerMonth;
+                cout << "Enter Resident ID: "; 
+                cin >> r.residentID;    
+                cout << "Enter Age: "; 
+                cin >> r.age;
+                cout << "Enter Mode of Transport: "; 
+                cin >> r.modeOfTransport;
+                cout << "Enter Daily Distance: "; 
+                cin >> r.dailyDistance;
+                cout << "Enter Carbon Emission Factor: "; 
+                cin >> r.carbonEmissionFactor;
+                cout << "Enter Average Days per Month: "; 
+                cin >> r.avgDayPerMonth;
                 cout << "Enter City (City A, City B, City C): ";
                 cin.ignore();
                 getline(cin, r.city);
