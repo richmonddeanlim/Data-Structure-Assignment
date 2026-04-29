@@ -76,7 +76,7 @@ void searchMenu(LinkedList& list) {
 }
 
 // The menu function to display the operations.
-void menu (LinkedList& list) {
+void menu (LinkedList& list, string cityname) {
     int option;
     do {
         cout << "==============================" << endl;
@@ -91,19 +91,65 @@ void menu (LinkedList& list) {
             case 1: {
                 Residents r;
                 cout << "Enter Resident ID: "; 
-                cin >> r.residentID;    
+                cin >> r.residentID;
+                char initial = cityname[5];
+                if (r.residentID[0] != initial) {
+                    cout << "Invalid Resident ID. The resident ID should start with '" << initial << "'." << endl;
+                    break;
+                }
+                if (list.findResident(r.residentID)) {
+                    cout << "Resident ID: " << r.residentID << " already exists. Please enter another ID." << endl;
+                    break;
+                }
                 cout << "Enter Age: "; 
                 cin >> r.age;
                 cout << "Enter Mode of Transport: "; 
-                cin >> r.modeOfTransport;
+                cout << "1. Bicycle" << endl;
+                cout << "2. Bus" << endl;
+                cout << "3. Car" << endl;
+                cout << "4. Carpool" << endl;
+                cout << "5. School Bus" << endl;
+                cout << "6. Walking" << endl;
+                cout << "7. Others" << endl;
+                cout << "Choice: ";
+                int choice;
+                cin >> choice;
+                switch(choice){
+                    case 1: 
+                        r.modeOfTransport = "Bicycle"; 
+                        break;
+                    case 2: 
+                        r.modeOfTransport = "Bus"; 
+                        break;
+                    case 3: 
+                        r.modeOfTransport = "Car"; 
+                        break;
+                    case 4: 
+                        r.modeOfTransport = "Carpool"; 
+                        break;
+                    case 5: 
+                        r.modeOfTransport = "School Bus"; 
+                        break;
+                    case 6: 
+                        r.modeOfTransport = "Walking"; 
+                        break;
+                    case 7:
+                        cout << "Enter mode of transport: ";
+                        cin.ignore();
+                        getline(cin, r.modeOfTransport);
+                        r.modeOfTransport[0] = toupper(r.modeOfTransport[0]);
+                        break;
+                    default: 
+                    cout << "Invalid choice. Please try again." << endl; 
+                    break;
+                }
                 cout << "Enter Daily Distance: "; 
                 cin >> r.dailyDistance;
                 cout << "Enter Carbon Emission Factor: "; 
                 cin >> r.carbonEmissionFactor;
                 cout << "Enter Average Days per Month: "; 
                 cin >> r.avgDayPerMonth;
-                cout << "Enter City: "; 
-                cin >> r.city;
+                r.city = cityname;
                 list.addResident(r);
                 break;
             }
@@ -145,32 +191,85 @@ void allcities(LinkedList& cityA, LinkedList& cityB, LinkedList& cityC) {
             case 1: {
                 Residents r;
                 cout << "Enter Resident ID: "; 
-                cin >> r.residentID;    
+                cin >> r.residentID;
+                char initial = r.residentID[0];
+                if (initial != 'A' && initial != 'B' && initial != 'C') {
+                    cout << "Invalid Resident ID. The resident ID should start with 'A', 'B', or 'C'." << endl;
+                    break;
+                }
+                LinkedList* targetList = nullptr;
+                if (initial == 'A') {
+                    targetList = &cityA;
+                }
+                else if (initial == 'B') {
+                    targetList = &cityB;
+                }
+                else if (initial == 'C') {
+                    targetList = &cityC;
+                }
+                if (targetList->findResident(r.residentID)) {
+                    cout << "Resident ID: " << r.residentID << " already exists. Please enter another ID." << endl;
+                    break;
+                }
                 cout << "Enter Age: "; 
                 cin >> r.age;
                 cout << "Enter Mode of Transport: "; 
-                cin >> r.modeOfTransport;
+                cout << "1. Bicycle" << endl;
+                cout << "2. Bus" << endl;
+                cout << "3. Car" << endl;
+                cout << "4. Carpool" << endl;
+                cout << "5. School Bus" << endl;
+                cout << "6. Walking" << endl;
+                cout << "7. Others" << endl;
+                cout << "Choice: ";
+                int choice;
+                cin >> choice;
+                switch(choice){
+                    case 1: 
+                        r.modeOfTransport = "Bicycle"; 
+                        break;
+                    case 2: 
+                        r.modeOfTransport = "Bus"; 
+                        break;
+                    case 3: 
+                        r.modeOfTransport = "Car"; 
+                        break;
+                    case 4: 
+                        r.modeOfTransport = "Carpool"; 
+                        break;
+                    case 5: 
+                        r.modeOfTransport = "School Bus"; 
+                        break;
+                    case 6: 
+                        r.modeOfTransport = "Walking"; 
+                        break;
+                    case 7:
+                        cout << "Enter mode of transport: ";
+                        cin.ignore();
+                        getline(cin, r.modeOfTransport);
+                        r.modeOfTransport[0] = toupper(r.modeOfTransport[0]);
+                        break;
+                    default: 
+                    cout << "Invalid choice. Please try again." << endl; 
+                    break;
+                }
                 cout << "Enter Daily Distance: "; 
                 cin >> r.dailyDistance;
                 cout << "Enter Carbon Emission Factor: "; 
                 cin >> r.carbonEmissionFactor;
                 cout << "Enter Average Days per Month: "; 
                 cin >> r.avgDayPerMonth;
-                cout << "Enter City (City A, City B, City C): ";
-                cin.ignore();
-                getline(cin, r.city);
-                if (r.city == "City A") {
-                    cityA.addResident(r);
+                if (initial == 'A') {
+                    r.city = "City A";
                 }
-                else if (r.city == "City B") {
-                    cityB.addResident(r);
+                else if (initial == 'B') {
+                    r.city = "City B";
                 }
-                else if (r.city == "City C") {
-                    cityC.addResident(r);
+                else if (initial == 'C') {
+                    r.city = "City C";
                 }
-                else {
-                    cout << "Invalid city. Please enter a valid city." << endl;
-                }
+                targetList->addResident(r);
+                cout << "Resident is added to " << r.city << "." << endl;
                 break;
             }
 
@@ -184,22 +283,21 @@ void allcities(LinkedList& cityA, LinkedList& cityB, LinkedList& cityC) {
                 break;
 
             case 3: {
-                string residentid, city;
+                string residentid;
                 cout << "Enter Resident ID to remove: ";
                 cin >> residentid;
-                cout << "Enter City (City A, City B, City C): ";
-                cin >> city;
-                if (city == "City A") {
+                char initial = residentid[0];
+                if (initial == 'A') {
                     cityA.removeResident(residentid);
                 }
-                else if (city == "City B") {
+                else if (initial == 'B') {
                     cityB.removeResident(residentid);
                 }
-                else if (city == "City C") {
+                else if (initial == 'C') {
                     cityC.removeResident(residentid);
                 }
                 else {
-                    cout << "Invalid city. No resident removed." << endl;
+                    cout << "Invalid Resident ID. The resident ID should start with 'A', 'B', or 'C'." << endl;
                 }
                 break;
             }
@@ -220,12 +318,12 @@ void showMenu() {
     cout << "==============================" << endl;
     cout << "City Carbon Emission Analysis" << endl;
     cout << "==============================" << endl;
-    cout << "Select a city(s): " << endl;
     cout << "1. City A" << endl;
     cout << "2. City B" << endl;
     cout << "3. City C" << endl;
     cout << "4. All Cities" << endl;
     cout << "5. Exit" << endl;
+    cout << "Select a city(s): " << endl;
 }
 
 // the main function to load the datasets into the linked list and display the menu for ciy selectio and operations.
@@ -242,15 +340,15 @@ int main() {
         switch(choice){
             case 1: 
                 cout << "City A: " << endl;
-                menu(cityA);
+                menu(cityA, "City A");
                 break;
             case 2:
                 cout << "City B: " << endl;
-                menu(cityB);
+                menu(cityB, "City B");
                 break;
             case 3:
                 cout << "City C: " << endl;
-                menu(cityC);
+                menu(cityC, "City C");
                 break;
             case 4:
                 cout << "All Cities: " << endl;

@@ -19,8 +19,23 @@ void LinkedList::addResident(Residents r) {
     }
 }
 
+bool LinkedList::findResident(string residentID) {
+    Node* temp = head;
+    while (temp != nullptr) {
+        if (temp->data.residentID == residentID) {
+            return true;
+        }
+        temp = temp->next;
+    }
+    return false;
+}
+
 // the method to display all the residents from selected city(s) in a formatted table.
 void LinkedList::displayResidents() {
+    if (isEmpty()) {
+    cout << "No residents to display." << endl;
+    return;
+    }
     Node* temp = head;
     cout << setfill('=') << setw(126) << "" << setfill(' ') << endl;
     cout << left << setw(12) << "ID" 
