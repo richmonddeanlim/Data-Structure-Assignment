@@ -42,11 +42,37 @@ static void printTable(const ResidentArray& arr, int limit = -1) {
     cout << "  Showing " << shown << " of " << total << " residents.\n";
 }
 
+//Showing array status and memory usage
 static void printStatus(const ResidentArray& arr) {
-    cout << "\n--- Array Status ---\n";
-    cout << "  Count    : " << arr.size()        << " residents\n";
-    cout << "  Capacity : " << arr.getCapacity() << " slots\n";
-    cout << "--------------------\n";
+    int n   = arr.size();
+    int cap = arr.getCapacity();
+ 
+    size_t perResident = sizeof(Resident);
+    size_t objSize     = sizeof(arr);
+    size_t used        = arr.dataSizeBytes();
+    size_t alloc       = arr.allocatedBytes();
+    size_t wasted      = arr.wastedBytes();
+    size_t total       = arr.totalMemoryBytes();
+    double fill        = (cap == 0) ? 0.0 : (100.0 * n / cap);
+ 
+    cout << "\n------------------ Array Status ------------------\n";
+    cout << "  Residents stored   : " << n << "\n";
+    cout << "  Slots allocated    : " << cap << "\n";
+    cout << "  Fill ratio         : " << fixed << setprecision(2) << fill << " %\n";
+    cout << "  Bytes per resident : " << perResident << "\n";
+    cout << "  Array object size  : " << objSize << "\n";
+    cout << "\n";
+    cout << "  Used memory        : " << used   << " bytes ("
+         << fixed << setprecision(2) << used   / 1024.0 << " KB)\n";
+    cout << "  Total allocated    : " << alloc  << " bytes ("
+         << fixed << setprecision(2) << alloc  / 1024.0 << " KB)\n";
+    cout << "  Wasted (unused)    : " << wasted << " bytes ("
+         << fixed << setprecision(2) << wasted / 1024.0 << " KB)\n";
+    cout << "  Grand total        : " << total  << " bytes ("
+         << fixed << setprecision(2) << total  / 1024.0 << " KB)\n";
+    cout << "--------------------------------------------------\n";
+    cout << "\nPress Enter to continue...";
+    cin.get();
 }
 
 static void searchMenu(ResidentArray& residents) {

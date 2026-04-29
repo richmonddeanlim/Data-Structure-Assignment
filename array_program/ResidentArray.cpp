@@ -86,3 +86,20 @@ ResidentArray& ResidentArray::operator=(const ResidentArray& other) {
     }
     return *this;                
 }
+
+// methods for memory analysis
+size_t ResidentArray::dataSizeBytes() const {
+    return (size_t)count * sizeof(Resident);
+}
+ 
+size_t ResidentArray::allocatedBytes() const {
+    return (size_t)capacity * sizeof(Resident);
+}
+ 
+size_t ResidentArray::wastedBytes() const {
+    return (size_t)(capacity - count) * sizeof(Resident);
+}
+ 
+size_t ResidentArray::totalMemoryBytes() const {
+    return sizeof(*this) + allocatedBytes();
+}

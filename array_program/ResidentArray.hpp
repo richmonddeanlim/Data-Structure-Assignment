@@ -1,5 +1,6 @@
 #pragma once
 #include "Resident.hpp"
+#include <cstddef>
 
 class ResidentArray {
 private:
@@ -27,4 +28,10 @@ public:
     //Additional Utility
     void clear();                   
     int  getCapacity() const;       
+
+    //Memory analysis
+    size_t dataSizeBytes()    const;
+    size_t allocatedBytes()   const;
+    size_t wastedBytes()      const;
+    size_t totalMemoryBytes() const;
 };
