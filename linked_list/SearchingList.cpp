@@ -10,6 +10,7 @@ using namespace std::chrono;
 
 namespace SearchingList {
 
+    // getting memory usage with windows and psapi library
     static size_t getMemoryUsage() {
         PROCESS_MEMORY_COUNTERS_EX pmc;
         if (GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc))) {
@@ -18,6 +19,7 @@ namespace SearchingList {
         return 0;
     }
 
+    // print header
     static void printHeader() {
         cout << "\n+-------+-----+---------------+----------+---------+------+------------+\n";
         cout << "| "  << left  << setw(5)  << "ID"
@@ -31,13 +33,30 @@ namespace SearchingList {
         cout << "+-------+-----+---------------+----------+---------+------+------------+\n";
     }
 
+    // --- Helpers for Binary Search ---
+    static int getCount(Node* head) {
+        int count = 0;
+        while (head != nullptr) { 
+            count++; head = head->next; 
+        }
+
+        return count;
+    }
+
+    static Node* getNodeAt(Node* head, int index) {
+        Node* curr = head;
+        for (int i = 0; i < index && curr != nullptr; i++) 
+        {
+            curr = curr->next;
+        }
+        return curr;
+    }
+
+    // looping displaying the search results in table
     void printSearchResultTable(const LinkedList& results, double searchTimeMs, size_t memoryUsedBytes) {
         int count = 0;
         Node* current = results.getHead();
-        while (current != nullptr) {
-            count++;
-            current = current->next;
-        }
+        count = getCount(current);
 
         if (count == 0) {
             cout << "\nNo residents found matching the criteria.\n";
@@ -47,6 +66,8 @@ namespace SearchingList {
         }
 
         printHeader();
+
+        // looop through the linked list and print the data in table format with the carbon emission calculated.
         Node* temp = results.getHead();
         while (temp != nullptr) {
             const Residents& r = temp->data;
@@ -64,75 +85,114 @@ namespace SearchingList {
         }
         cout << "+-------+-----+---------------+----------+---------+------+------------+\n";
         cout << "Found " << count << " matches.\n";
+
+        // print the search execution time and memory usage in KB
         cout << "Search execution time: " << fixed << setprecision(4) << searchTimeMs << " ms\n";
         cout << "Memory consumption   : " << (memoryUsedBytes / 1024.0) << " KB\n";
     }
 
-    // --- Helpers for Binary Search ---
-    static int getCount(Node* head) {
-        int count = 0;
-        while (head != nullptr) { count++; head = head->next; }
-        return count;
-    }
-
-    static Node* getNodeAt(Node* head, int index) {
-        Node* curr = head;
-        for (int i = 0; i < index && curr != nullptr; i++) curr = curr->next;
-        return curr;
-    }
-
-    // --- Linear Searches ---
+    // linear search age
     void linearSearchAge(const LinkedList& list, int minAge, int maxAge) {
         LinkedList matches;
+
+        // get memory usage before search and start time
         size_t memStart = getMemoryUsage();
         auto start = high_resolution_clock::now();
+
         Node* temp = list.getHead();
         while (temp != nullptr) {
-            if (temp->data.age >= minAge && temp->data.age <= maxAge) matches.addResident(temp->data);
+            if (temp->data.age >= minAge && temp->data.age <= maxAge) {
+                matches.addResident(temp->data);
+            }
             temp = temp->next;
         }
+
+        // get end time and memory usage after search
         auto end = high_resolution_clock::now();
         size_t memEnd = getMemoryUsage();
         duration<double, milli> elapsed = end - start;
-        size_t diff = (memEnd > memStart) ? (memEnd - memStart) : 0;
+
+        size_t diff;
+        if (memEnd > memStart) {
+            diff = memEnd - memStart;
+        }       
+        else {
+            diff = 0;
+        }
+
         printSearchResultTable(matches, elapsed.count(), diff);
     }
 
+    // linear search transport
     void linearSearchTransport(const LinkedList& list, string mode) {
         LinkedList matches;
+
+        // get memory usage before search and start time
         size_t memStart = getMemoryUsage();
         auto start = high_resolution_clock::now();
+
         Node* temp = list.getHead();
         while (temp != nullptr) {
-            if (temp->data.modeOfTransport == mode) matches.addResident(temp->data);
+            if (temp->data.modeOfTransport == mode) {
+                matches.addResident(temp->data);
+            }
             temp = temp->next;
         }
+        
+        // get end time and memory usage after search
         auto end = high_resolution_clock::now();
         size_t memEnd = getMemoryUsage();
         duration<double, milli> elapsed = end - start;
-        size_t diff = (memEnd > memStart) ? (memEnd - memStart) : 0;
+        
+        size_t diff;
+        if (memEnd > memStart) {
+            diff = memEnd - memStart;
+        } 
+        else {
+            diff = 0;
+        }
+
         printSearchResultTable(matches, elapsed.count(), diff);
     }
 
+    // linear search distance
     void linearSearchDistance(const LinkedList& list, int threshold) {
         LinkedList matches;
+
+        // get memory usage before search and start time
         size_t memStart = getMemoryUsage();
         auto start = high_resolution_clock::now();
+
         Node* temp = list.getHead();
         while (temp != nullptr) {
-            if (temp->data.dailyDistance > threshold) matches.addResident(temp->data);
+            if (temp->data.dailyDistance > threshold) {
+                matches.addResident(temp->data);
+            }
             temp = temp->next;
         }
+
+        // get end time and memory usage after search
         auto end = high_resolution_clock::now();
         size_t memEnd = getMemoryUsage();
         duration<double, milli> elapsed = end - start;
-        size_t diff = (memEnd > memStart) ? (memEnd - memStart) : 0;
+        
+        size_t diff;
+        if (memEnd > memStart) {
+            diff = memEnd - memStart;
+        } 
+        
+        else {
+            diff = 0;
+        }
+
         printSearchResultTable(matches, elapsed.count(), diff);
     }
 
-    // --- Binary Searches ---
+    // binary search age
     void binarySearchAge(const LinkedList& list, int minAge, int maxAge) {
         LinkedList matches;
+
+        // get memory usage before search and start time
         size_t memStart = getMemoryUsage();
         auto start = high_resolution_clock::now();
         
@@ -142,7 +202,11 @@ namespace SearchingList {
         while (low <= high) {
             int mid = low + (high - low) / 2;
             Node* midNode = getNodeAt(list.getHead(), mid);
-            if (midNode->data.age >= minAge) { startIndex = mid; high = mid - 1; }
+            
+            if (midNode->data.age >= minAge) { 
+                startIndex = mid; high = mid - 1; 
+            }
+
             else { low = mid + 1; }
         }
 
@@ -154,15 +218,27 @@ namespace SearchingList {
             }
         }
 
+        // get end time and memory usage after search
         auto end = high_resolution_clock::now();
         size_t memEnd = getMemoryUsage();
         duration<double, milli> elapsed = end - start;
-        size_t diff = (memEnd > memStart) ? (memEnd - memStart) : 0;
+        size_t diff;
+        
+        if (memEnd > memStart) {
+            diff = memEnd - memStart;
+        } 
+        
+        else {
+            diff = 0;
+        }
+
         printSearchResultTable(matches, elapsed.count(), diff);
     }
 
     void binarySearchTransport(const LinkedList& list, string mode) {
         LinkedList matches;
+
+        //  get memory usage before search and start time
         size_t memStart = getMemoryUsage();
         auto start = high_resolution_clock::now();
         
@@ -175,7 +251,9 @@ namespace SearchingList {
             if (midNode->data.modeOfTransport >= mode) {
                 if (midNode->data.modeOfTransport == mode) startIndex = mid;
                 high = mid - 1;
-            } else { low = mid + 1; }
+            } 
+            
+            else { low = mid + 1; }
         }
 
         if (startIndex != -1) {
@@ -186,15 +264,27 @@ namespace SearchingList {
             }
         }
 
+        // get end time and memory usage after search
         auto end = high_resolution_clock::now();
         size_t memEnd = getMemoryUsage();
         duration<double, milli> elapsed = end - start;
-        size_t diff = (memEnd > memStart) ? (memEnd - memStart) : 0;
+
+        size_t diff;
+        if (memEnd > memStart) {
+            diff = memEnd - memStart;
+        } 
+  
+        else {
+            diff = 0;
+        }
+
         printSearchResultTable(matches, elapsed.count(), diff);
     }
 
     void binarySearchDistance(const LinkedList& list, int threshold) {
         LinkedList matches;
+
+        //  get memory usage before search and start time
         size_t memStart = getMemoryUsage();
         auto start = high_resolution_clock::now();
         
@@ -204,8 +294,13 @@ namespace SearchingList {
         while (low <= high) {
             int mid = low + (high - low) / 2;
             Node* midNode = getNodeAt(list.getHead(), mid);
-            if (midNode->data.dailyDistance > threshold) { startIndex = mid; high = mid - 1; }
-            else { low = mid + 1; }
+            if (midNode->data.dailyDistance > threshold) { 
+                startIndex = mid; high = mid - 1; 
+            }
+
+            else { 
+                low = mid + 1; 
+            }
         }
 
         if (startIndex != -1) {
@@ -216,10 +311,20 @@ namespace SearchingList {
             }
         }
 
+        // get end time and memory usage after search
         auto end = high_resolution_clock::now();
         size_t memEnd = getMemoryUsage();
         duration<double, milli> elapsed = end - start;
-        size_t diff = (memEnd > memStart) ? (memEnd - memStart) : 0;
+
+        size_t diff;
+        if (memEnd > memStart) {
+            diff = memEnd - memStart;
+        } 
+        
+        else {
+            diff = 0;
+        }
+
         printSearchResultTable(matches, elapsed.count(), diff);
     }
 }
