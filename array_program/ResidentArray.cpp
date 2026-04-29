@@ -13,13 +13,11 @@ ResidentArray::~ResidentArray() {
 
 void ResidentArray::resize(int newCapacity) {
     Resident* newData = new Resident[newCapacity]; 
-
     for (int i = 0; i < count; ++i) {            
         newData[i] = data[i];
     }
-
     delete[] data;                                
-    data     = newData;                          
+    data = newData;                          
     capacity = newCapacity;     
 }
 
@@ -41,21 +39,21 @@ Resident& ResidentArray::get(int index) {
 const Resident& ResidentArray::get(int index) const {
     if (index < 0 || index >= count) {
         throw std::out_of_range("ResidentArray::get() index out of range");
-    }
+}
     return data[index];
 }
 
 void ResidentArray::swap(int i, int j) {
     if (i == j) return;                          
     Resident temp = data[i];                    
-    data[i]       = data[j];                   
-    data[j]       = temp;                     
+    data[i] = data[j];                   
+    data[j] = temp;                     
 }
 
 ResidentArray::ResidentArray(const ResidentArray& other) {
-    capacity = other.capacity;
-    count    = other.count;
-    data     = new Resident[capacity];   
+    capacity=other.capacity;
+    count   =other.count;
+    data    =new Resident[capacity];   
     for (int i = 0; i < count; ++i) {
         data[i] = other.data[i];     
     }
@@ -75,9 +73,7 @@ void ResidentArray::clear() {
 
 ResidentArray& ResidentArray::operator=(const ResidentArray& other) {
     if (this == &other) return *this;      
-
     delete[] data;                        
-
     capacity = other.capacity;
     count    = other.count;
     data     = new Resident[capacity];  
@@ -91,15 +87,12 @@ ResidentArray& ResidentArray::operator=(const ResidentArray& other) {
 size_t ResidentArray::dataSizeBytes() const {
     return (size_t)count * sizeof(Resident);
 }
- 
 size_t ResidentArray::allocatedBytes() const {
     return (size_t)capacity * sizeof(Resident);
 }
- 
 size_t ResidentArray::wastedBytes() const {
     return (size_t)(capacity - count) * sizeof(Resident);
 }
- 
 size_t ResidentArray::totalMemoryBytes() const {
     return sizeof(*this) + allocatedBytes();
 }

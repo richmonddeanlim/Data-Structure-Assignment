@@ -33,8 +33,8 @@ static void printTable(const ResidentArray& arr, int limit = -1) {
              << " | " << right << setw(3)  << r.age
              << " | " << left  << setw(13) << r.modeOfTransport
              << " | " << right << setw(8)  << r.dailyDistance
-             << " | " << right << setw(7)  << fixed << setprecision(2) << r.carbonEmissionFactor
-             << " | " << right << setw(4)  << r.avgDayPerMonth
+             << " | " << right << setw(7)  << fixed << setprecision(2) << r.co2Factor
+             << " | " << right << setw(4)  << r.averageDayPerMonth
              << " | " << right << setw(10) << fixed << setprecision(2) << r.emission()
              << " |\n";
     }
@@ -48,9 +48,9 @@ static void printStatus(const ResidentArray& arr) {
     int cap = arr.getCapacity();
  
     size_t perResident = sizeof(Resident);
-    size_t objSize     = sizeof(arr);
+    size_t structSize     = sizeof(arr);
     size_t used        = arr.dataSizeBytes();
-    size_t alloc       = arr.allocatedBytes();
+    size_t allocated       = arr.allocatedBytes();
     size_t wasted      = arr.wastedBytes();
     size_t total       = arr.totalMemoryBytes();
     double fill        = (cap == 0) ? 0.0 : (100.0 * n / cap);
@@ -60,12 +60,12 @@ static void printStatus(const ResidentArray& arr) {
     cout << "  Slots allocated    : " << cap << "\n";
     cout << "  Fill ratio         : " << fixed << setprecision(2) << fill << " %\n";
     cout << "  Bytes per resident : " << perResident << "\n";
-    cout << "  Array object size  : " << objSize << "\n";
+    cout << "  Array object size  : " << structSize << "\n";
     cout << "\n";
     cout << "  Used memory        : " << used   << " bytes ("
          << fixed << setprecision(2) << used   / 1024.0 << " KB)\n";
-    cout << "  Total allocated    : " << alloc  << " bytes ("
-         << fixed << setprecision(2) << alloc  / 1024.0 << " KB)\n";
+    cout << "  Total allocated    : " << allocated  << " bytes ("
+         << fixed << setprecision(2) << allocated  / 1024.0 << " KB)\n";
     cout << "  Wasted (unused)    : " << wasted << " bytes ("
          << fixed << setprecision(2) << wasted / 1024.0 << " KB)\n";
     cout << "  Grand total        : " << total  << " bytes ("
@@ -144,7 +144,7 @@ static void searchMenu(ResidentArray& residents) {
 
 static void printMenu() {
     cout << "\n==========================================\n";
-    cout << "  URBAN CARBON EMISSION ANALYSIS - ARRAY  \n";
+    cout << "  Carbon Emission Analysis System (Array)  \n";
     cout << "==========================================\n";
     cout << "  1. Reload all datasets\n";
     cout << "  2. Show array status\n";

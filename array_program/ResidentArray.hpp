@@ -8,10 +8,10 @@ private:
     int       count;     
     int       capacity;  
 
+    //Internal method to expand the array by 2 times when capacity is full
     void resize(int newCapacity);
 
 public:
-
     //Constructors, destructor, and assignment operator
     ResidentArray();                                   
     ResidentArray(const ResidentArray& other);         

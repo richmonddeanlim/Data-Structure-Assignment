@@ -51,8 +51,8 @@ namespace Searching {
                  << " | " << right << setw(3)  << r.age
                  << " | " << left  << setw(13) << r.modeOfTransport
                  << " | " << right << setw(8)  << r.dailyDistance
-                 << " | " << right << setw(7)  << fixed << setprecision(2) << r.carbonEmissionFactor
-                 << " | " << right << setw(4)  << r.avgDayPerMonth
+                 << " | " << right << setw(7)  << fixed << setprecision(2) << r.co2Factor
+                 << " | " << right << setw(4)  << r.averageDayPerMonth
                  << " | " << right << setw(10) << fixed << setprecision(2) << r.emission()
                  << " |\n";
         }
