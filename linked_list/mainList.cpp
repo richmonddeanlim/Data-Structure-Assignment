@@ -323,7 +323,8 @@ void showMenu() {
     cout << "2. City B" << endl;
     cout << "3. City C" << endl;
     cout << "4. All Cities" << endl;
-    cout << "5. Exit" << endl;
+    cout << "5. Carbon Emission Analysis" << endl;
+    cout << "6. Exit" << endl;
     cout << "Select a city(s): " << endl;
 }
 
@@ -356,7 +357,144 @@ int main() {
                 allcities(cityA, cityB, cityC);
                 break;
             case 5:
-                cout << "Exiting... " << endl;
+            {
+            const int DATASET_COUNT = 3;
+            const int MODE_COUNT = 6;
+            const int AGE_GROUP_COUNT = 5;
+
+            string datasetNames[DATASET_COUNT] = {"City A", "City B", "City C"};
+            string modeNames[MODE_COUNT] = {"Car", "Bus", "Bicycle", "Walking", "School Bus", "Carpool"};
+            string ageGroupNames[AGE_GROUP_COUNT] = {"6-17", "18-25", "26-45", "46-60", "61-100"};
+
+            LinkedList* lists[DATASET_COUNT] = {&cityA, &cityB, &cityC};
+
+            double datasetTotal[DATASET_COUNT] = {0};
+            double modeTotal[MODE_COUNT] = {0};
+            double datasetAgeTotal[DATASET_COUNT][AGE_GROUP_COUNT] = {0};
+            double ageTotal[AGE_GROUP_COUNT] = {0};
+            int ageCount[AGE_GROUP_COUNT] = {0};
+
+            for (int d = 0; d < DATASET_COUNT; d++) {
+                Node* current = lists[d]->getHead();
+
+                while (current != nullptr) {
+                    Residents r = current->data;
+
+                    double emission = r.dailyDistance * r.carbonEmissionFactor * r.avgDayPerMonth;
+
+                    datasetTotal[d] += emission;
+
+                    int modeIndex = -1;
+                    for (int m = 0; m < MODE_COUNT; m++) {
+                        if (r.modeOfTransport == modeNames[m]) {
+                            modeIndex = m;
+                            break;
+                        }
+                    }
+
+                    int ageIndex = -1;
+                    if (r.age >= 6 && r.age <= 17) ageIndex = 0;
+                    else if (r.age >= 18 && r.age <= 25) ageIndex = 1;
+                    else if (r.age >= 26 && r.age <= 45) ageIndex = 2;
+                    else if (r.age >= 46 && r.age <= 60) ageIndex = 3;
+                    else if (r.age >= 61 && r.age <= 100) ageIndex = 4;
+
+                    if (modeIndex != -1) {
+                        modeTotal[modeIndex] += emission;
+                    }
+
+                    if (ageIndex != -1) {
+                        ageTotal[ageIndex] += emission;
+                        ageCount[ageIndex]++;
+                        datasetAgeTotal[d][ageIndex] += emission;
+                    }
+
+                    current = current->next;
+                }
+            }
+
+            cout << "\n================ LINKED LIST CARBON EMISSION ANALYSIS ================\n";
+
+            cout << "\nTOTAL CARBON EMISSIONS PER DATASET\n";
+            cout << "+------------+--------------------------+\n";
+            cout << "| " << left << setw(10) << "Dataset"
+                << " | " << right << setw(24) << "Total Emission(kg CO2)" << " |\n";
+            cout << "+------------+--------------------------+\n";
+
+            for (int i = 0; i < DATASET_COUNT; i++) {
+                cout << "| " << left << setw(10) << datasetNames[i]
+                    << " | " << right << setw(24) << fixed << setprecision(2) << datasetTotal[i]
+                    << " |\n";
+            }
+
+            cout << "+------------+--------------------------+\n";
+
+            cout << "\nCARBON EMISSIONS PER MODE OF TRANSPORT\n";
+            cout << "+---------------+--------------------------+\n";
+            cout << "| " << left << setw(13) << "Mode"
+                << " | " << right << setw(24) << "Total Emission(kg CO2)" << " |\n";
+            cout << "+---------------+--------------------------+\n";
+
+            for (int i = 0; i < MODE_COUNT; i++) {
+                cout << "| " << left << setw(13) << modeNames[i]
+                    << " | " << right << setw(24) << fixed << setprecision(2) << modeTotal[i]
+                    << " |\n";
+            }
+
+            cout << "+---------------+--------------------------+\n";
+
+            cout << "\nCARBON EMISSION COMPARISON ACROSS DATASETS AND AGE GROUPS\n";
+            cout << "+------------+------------+------------+------------+------------+------------+\n";
+            cout << "| " << left << setw(10) << "Dataset";
+
+            for (int i = 0; i < AGE_GROUP_COUNT; i++) {
+                cout << " | " << right << setw(10) << ageGroupNames[i];
+            }
+
+            cout << " |\n";
+            cout << "+------------+------------+------------+------------+------------+------------+\n";
+
+            for (int d = 0; d < DATASET_COUNT; d++) {
+                cout << "| " << left << setw(10) << datasetNames[d];
+
+                for (int a = 0; a < AGE_GROUP_COUNT; a++) {
+                    cout << " | " << right << setw(10) << fixed << setprecision(2) << datasetAgeTotal[d][a];
+                }
+
+                cout << " |\n";
+            }
+
+            cout << "+------------+------------+------------+------------+------------+------------+\n";
+
+            cout << "\nAGE GROUP EMISSION SUMMARY\n";
+            cout << "+------------+------------+----------------+----------------+\n";
+            cout << "| " << left << setw(10) << "Age Group"
+                << " | " << right << setw(10) << "Residents"
+                << " | " << right << setw(14) << "Total CO2"
+                << " | " << right << setw(14) << "Avg/Resident" << " |\n";
+            cout << "+------------+------------+----------------+----------------+\n";
+
+            for (int i = 0; i < AGE_GROUP_COUNT; i++) {
+                double average = 0;
+
+                if (ageCount[i] > 0) {
+                    average = ageTotal[i] / ageCount[i];
+                }
+
+                cout << "| " << left << setw(10) << ageGroupNames[i]
+                    << " | " << right << setw(10) << ageCount[i]
+                    << " | " << right << setw(14) << fixed << setprecision(2) << ageTotal[i]
+                    << " | " << right << setw(14) << fixed << setprecision(2) << average
+                    << " |\n";
+            }
+
+            cout << "+------------+------------+----------------+----------------+\n";
+
+            break;
+        }
+
+            case 6:
+                cout << "Exiting..." << endl;
                 return 0;
             default:
                 cout << "Invalid choice. Please choose a valid option!" << endl;
@@ -364,6 +502,6 @@ int main() {
         }
         showMenu();
         cin >> choice;
-    } while(choice != 5);
+    } while(choice != 6);
     return 0;
 }
