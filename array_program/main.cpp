@@ -12,6 +12,7 @@ static void printSeparator() {
     cout << "+-------+-----+---------------+----------+---------+------+------------+\n";
 }
 
+//draw the table of the resident array
 static void printTable(const ResidentArray& arr, int limit = -1) {
     int total = arr.size();
     int shown = (limit < 0 || limit > total) ? total : limit;
@@ -42,7 +43,7 @@ static void printTable(const ResidentArray& arr, int limit = -1) {
     cout << "  Showing " << shown << " of " << total << " residents.\n";
 }
 
-//Showing array status and memory usage
+//Showing array status and memory usage stats
 static void printStatus(const ResidentArray& arr) {
     int n   = arr.size();
     int cap = arr.getCapacity();

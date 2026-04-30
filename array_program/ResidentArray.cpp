@@ -13,7 +13,7 @@ ResidentArray::~ResidentArray() {
 
 void ResidentArray::resize(int newCapacity) {
     Resident* newData = new Resident[newCapacity]; 
-    for (int i = 0; i < count; ++i) {            
+    for (int i = 0; i < count; ++i) { //copying old data to new array
         newData[i] = data[i];
     }
     delete[] data;                                
@@ -22,7 +22,7 @@ void ResidentArray::resize(int newCapacity) {
 }
 
 void ResidentArray::add(const Resident& r) {
-    if (count == capacity) {    
+    if (count == capacity) {    //doubling the array size
         resize(capacity * 2);   
     }
     data[count] = r;            
@@ -50,6 +50,7 @@ void ResidentArray::swap(int i, int j) {
     data[j] = temp;                     
 }
 
+//copy constructor to prevent shallow copy
 ResidentArray::ResidentArray(const ResidentArray& other) {
     capacity=other.capacity;
     count   =other.count;
@@ -71,6 +72,7 @@ void ResidentArray::clear() {
     count = 0;
 }
 
+//copy assignment operator to avoid memory leaks and ensure deep copy
 ResidentArray& ResidentArray::operator=(const ResidentArray& other) {
     if (this == &other) return *this;      
     delete[] data;                        

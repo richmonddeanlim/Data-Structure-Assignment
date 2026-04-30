@@ -4,6 +4,7 @@
 #include <iostream>
 using namespace std;
 
+//cleaning whitespace. extraspace, hidden newline from the start and end of the string
 static string trim(const string& s) {
     const char* ws = " \t\r\n";
     size_t start = s.find_first_not_of(ws);
@@ -12,6 +13,7 @@ static string trim(const string& s) {
     return s.substr(start, end - start + 1);
 }
 
+//takes a single row from the csv and split it to fills the resident struct
 static bool parseLine(const string& line, Resident& out) {
     stringstream ss(line);   
     string fields[6];       
@@ -36,6 +38,7 @@ static bool parseLine(const string& line, Resident& out) {
 }
 
 namespace CSVLoader {
+    //open the file and load all the resident into the array.
     bool loadFromFile(const string& filename, ResidentArray& arr) {
         ifstream in(filename);
         if (!in.is_open()) {
@@ -67,6 +70,7 @@ namespace CSVLoader {
         return true;
     }
 
+    //load all three dataset at once
     int loadAll(const string& cityAPath, const string& cityBPath, const string& cityCPath, ResidentArray& combined) {
         int successes = 0;
         if (loadFromFile(cityAPath, combined)) successes++;
