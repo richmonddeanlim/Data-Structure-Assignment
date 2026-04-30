@@ -79,7 +79,8 @@ static void printStatus(const ResidentArray& arr) {
 static void searchMenu(ResidentArray& residents) {
     int dataState, algorithm, criteria;
 
-    cout << "\n--- Search Resident (ARRAY) ---" << endl;
+    cout << "\n   Search Resident   " << endl;
+    cout << "-------------------------\n";
     cout << "Select Data State:" << endl;
     cout << "1. Unsorted Data" << endl;
     cout << "2. Sorted Data" << endl;
