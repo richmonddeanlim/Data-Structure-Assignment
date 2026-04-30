@@ -3,12 +3,12 @@
 #include <string>
 
 namespace Searching {
-    // Linear Search Functions
+    // Linear search functions
     void linearSearchAge(const ResidentArray& arr, int minAge, int maxAge);
     void linearSearchTransport(const ResidentArray& arr, std::string mode);
     void linearSearchDistance(const ResidentArray& arr, int threshold);
 
-    // Binary Search Functions
+    // Binary search functions
     void binarySearchAge(const ResidentArray& arr, int minAge, int maxAge);
     void binarySearchTransport(const ResidentArray& arr, std::string mode);
     void binarySearchDistance(const ResidentArray& arr, int threshold);
