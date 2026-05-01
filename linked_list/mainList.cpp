@@ -12,7 +12,7 @@ void searchMenu(LinkedList& list) {
     int dataState, algorithm, criteria;
 
     cout << "\n    Search Resident    " << endl;
-    cout << "-----------------------------------\n";
+    cout << "==============================\n";
     cout << "Select Data State:" << endl;
     cout << "1. Unsorted Data" << endl;
     cout << "2. Sorted Data" << endl;
