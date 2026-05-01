@@ -82,8 +82,8 @@ static void printStatus(const ResidentArray& arr) {
 static void searchMenu(ResidentArray& residents) {
     int dataState, algorithm, criteria;
 
-    cout << "\n   Search Resident   " << endl;
-    cout << "-------------------------\n";
+    cout << "\n  Search Resident    " << endl;
+    cout << "====================\n";
     cout << "Select Data State:" << endl;
     cout << "1. Unsorted Data" << endl;
     cout << "2. Sorted Data" << endl;
@@ -162,12 +162,15 @@ static void searchMenu(ResidentArray& residents) {
         if (criteria == 1){
             sortTime = Sorting::sortByAge(residents, memused);
         }
+
         else if (criteria == 2) {
             sortTime = Sorting::sortByTransport(residents, memused);
         }
+
         else if (criteria == 3) {
             sortTime = Sorting::sortByDistance(residents, memused);
         }
+
         else {
             cout << "Invalid criteria for sorting. Returning." << endl;
             return;
@@ -183,13 +186,15 @@ static void searchMenu(ResidentArray& residents) {
         while (true) {
             cout << "Enter min age: "; 
             if (!(cin >> minAge)) {
-                cin.clear(); cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cin.clear(); 
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 cout << "Invalid input. Please enter a number." << endl;
                 continue;
             }
             cout << "Enter max age: "; 
             if (!(cin >> maxAge)) {
-                cin.clear(); cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cin.clear(); 
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 cout << "Invalid input. Please enter a number." << endl;
                 continue;
             }
@@ -244,7 +249,8 @@ static void searchMenu(ResidentArray& residents) {
         while (true) {
             cout << "Enter distance threshold: "; 
             if (!(cin >> threshold)) {
-                cin.clear(); cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cin.clear(); 
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 cout << "Invalid input. Please enter a number." << endl;
             } 
             
