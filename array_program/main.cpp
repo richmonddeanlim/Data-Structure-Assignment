@@ -89,22 +89,56 @@ static void searchMenu(ResidentArray& residents) {
     cout << "2. Sorted Data" << endl;
     cout << "3. Back" << endl;
     cout << "Choice: ";
-    cin >> dataState;
-
-    if (dataState == 3) return;
+    
+    if (!(cin >> dataState) || dataState == 3) {
+        if (cin.fail()) {
+            cin.clear(); 
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Returning to menu." << endl;
+        }
+        return;
+    }
 
     if (dataState == 1) {
         cout << "\nSelect Algorithm:" << endl;
         cout << "1. Linear Search" << endl;
         cout << "Choice: ";
-        cin >> algorithm;
-        algorithm = 1; // Ensure it stays 1 even if they type something else
-    } else {
+
+        if (!(cin >> algorithm)) {
+            cin.clear(); 
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Returning to menu." << endl;
+            return;
+        }
+
+        if (algorithm != 1) {
+            cout << "Invalid choice for unsorted data. Defaulting to Linear Search." << endl;
+            algorithm = 1;
+        }
+    } 
+
+    else if (dataState == 2) {
         cout << "\nSelect Algorithm:" << endl;
         cout << "1. Linear Search" << endl;
         cout << "2. Binary Search" << endl;
         cout << "Choice: ";
-        cin >> algorithm;
+
+        if (!(cin >> algorithm)) {
+            cin.clear(); 
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Returning to menu." << endl;
+            return;
+        }
+
+        if (algorithm < 1 || algorithm > 2) {
+            cout << "Invalid choice. Defaulting to Linear Search." << endl;
+            algorithm = 1;
+        }
+    }
+
+    else {
+        cout << "Invalid selection. Returning to menu." << endl;
+        return;
     }
 
     cout << "\nSelect Criteria:" << endl;
@@ -112,16 +146,33 @@ static void searchMenu(ResidentArray& residents) {
     cout << "2. Mode of Transport" << endl;
     cout << "3. Distance Threshold" << endl;
     cout << "Choice: ";
-    cin >> criteria;
+    if (!(cin >> criteria)) {
+        cin.clear(); 
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid input. Returning to menu." << endl;
+        return;
+    }
 
     // Trigger Sorting if "Sorted Data" is selected
     if (dataState == 2) {
         cout << "\n[Running Sorting Experiment...]" << endl;
         double sortTime = 0;
         size_t memused = 0;
-        if (criteria == 1) sortTime = Sorting::sortByAge(residents, memused);
-        else if (criteria == 2) sortTime = Sorting::sortByTransport(residents, memused);
-        else if (criteria == 3) sortTime = Sorting::sortByDistance(residents, memused);
+
+        if (criteria == 1){
+            sortTime = Sorting::sortByAge(residents, memused);
+        }
+        else if (criteria == 2) {
+            sortTime = Sorting::sortByTransport(residents, memused);
+        }
+        else if (criteria == 3) {
+            sortTime = Sorting::sortByDistance(residents, memused);
+        }
+        else {
+            cout << "Invalid criteria for sorting. Returning." << endl;
+            return;
+        }
+
         cout << "Selection Sort completed in " << fixed << setprecision(6) << sortTime << " seconds." << endl;
         cout << "Memory used: " << memused << " bytes" << endl;
     }
@@ -129,25 +180,91 @@ static void searchMenu(ResidentArray& residents) {
     // Execute Search
     if (criteria == 1) {
         int minAge, maxAge;
-        cout << "Enter min age: "; cin >> minAge;
-        cout << "Enter max age: "; cin >> maxAge;
-        if (algorithm == 1) Searching::linearSearchAge(residents, minAge, maxAge);
-        else Searching::binarySearchAge(residents, minAge, maxAge);
-    } 
+        while (true) {
+            cout << "Enter min age: "; 
+            if (!(cin >> minAge)) {
+                cin.clear(); cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Invalid input. Please enter a number." << endl;
+                continue;
+            }
+            cout << "Enter max age: "; 
+            if (!(cin >> maxAge)) {
+                cin.clear(); cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Invalid input. Please enter a number." << endl;
+                continue;
+            }
+
+            else if (minAge > maxAge) {
+                cout << "Error: Min age cannot be greater than max age. Please try again." << endl;
+            } 
+            
+            else if (minAge < 0 || maxAge < 0) {
+                cout << "Error: Age cannot be negative. Please try again." << endl;
+            } 
+            
+            else {
+                break;
+            }
+        }
+
+        if (algorithm == 1) {
+            Searching::linearSearchAge(residents, minAge, maxAge);
+        }
+
+        else {
+            Searching::binarySearchAge(residents, minAge, maxAge);
+        }
+    }
+
     else if (criteria == 2) {
         string mode;
         cout << "Enter mode of transport: ";
-        cin >> mode;
-        if (algorithm == 1) Searching::linearSearchTransport(residents, mode);
-        else Searching::binarySearchTransport(residents, mode);
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        getline(cin, mode);
+
+        if (mode == "Bicycle" || mode == "Bus" || mode == "Car" || mode == "Carpool" || mode == "School Bus" || mode == "Walking") {
+            if (algorithm == 1){
+                Searching::linearSearchTransport(residents, mode);
+            }
+
+            else {
+                Searching::binarySearchTransport(residents, mode);
+            }
+        }
+
+        else {
+            cout << "Invalid mode of transport. (Note: Case-sensitive, e.g., 'Car', 'School Bus')" << endl;
+            return;
+        }
+
     }
+
     else if (criteria == 3) {
         int threshold;
-        cout << "Enter distance threshold: "; cin >> threshold;
-        if (algorithm == 1) Searching::linearSearchDistance(residents, threshold);
-        else Searching::binarySearchDistance(residents, threshold);
-    }
-}
+        while (true) {
+            cout << "Enter distance threshold: "; 
+            if (!(cin >> threshold)) {
+                cin.clear(); cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Invalid input. Please enter a number." << endl;
+            } 
+            
+            else if (threshold < 0) {
+                cout << "Error: Threshold cannot be negative." << endl;
+            } 
+            
+            else {
+                break;
+            }
+        }
+
+        if (algorithm == 1){
+            Searching::linearSearchDistance(residents, threshold);
+        }
+
+        else {
+            Searching::binarySearchDistance(residents, threshold);
+        }
+    }}
 
 static void sortMenu(ResidentArray& residents) {
     int criteria;
