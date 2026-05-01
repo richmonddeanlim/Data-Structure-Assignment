@@ -12,4 +12,7 @@ struct Residents {
     double carbonEmissionFactor;
     int avgDayPerMonth;
     string city;
+    double emission() const {
+        return dailyDistance * carbonEmissionFactor * avgDayPerMonth;
+    }
 };
