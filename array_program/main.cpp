@@ -350,7 +350,6 @@ int main() {
             cout << "Invalid input.\n";
             continue;
         }
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
         system("cls");
         switch (choice) {
