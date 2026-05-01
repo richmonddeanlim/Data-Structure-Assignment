@@ -153,12 +153,11 @@ static void printMenu() {
     cout << "\n==========================================\n";
     cout << "  Carbon Emission Analysis System (Array)  \n";
     cout << "==========================================\n";
-    cout << "  1. Reload all datasets\n";
-    cout << "  2. Show array status\n";
-    cout << "  3. Display first 20 residents\n";
-    cout << "  4. Display ALL residents\n";
-    cout << "  5. Carbon Emission Analysis\n";
-    cout << "  6. Search Resident\n";
+    cout << "  1. Show array status\n";
+    cout << "  2. Display first 20 residents\n";
+    cout << "  3. Display ALL residents\n";
+    cout << "  4. Carbon Emission Analysis\n";
+    cout << "  5. Search Resident\n";
     cout << "  0. Exit\n";
     cout << "------------------------------------------\n";
     cout << "  Choice: ";
@@ -195,15 +194,10 @@ int main() {
         clearScreen();
         switch (choice) {
             case 0: cout << "Goodbye.\n"; return 0;
-            case 1:
-                residents.clear();
-                CSVLoader::loadAll(pathA, pathB, pathC, residents);
-                cout << "Datasets reloaded.\n";
-                break;
-            case 2: printStatus(residents);    break;
-            case 3: printTable(residents, 20); break;
-            case 4: printTable(residents);     break;
-            case 5:
+            case 1: printStatus(residents);    break;
+            case 2: printTable(residents, 20); break;
+            case 3: printTable(residents);     break;
+            case 4:
             {
             const int DATASET_COUNT = 3;
             const int MODE_COUNT = 6;
@@ -364,7 +358,7 @@ int main() {
 
             break;
         }
-            case 6: searchMenu(residents);     break;
+            case 5: searchMenu(residents);     break;
             default: cout << "Invalid choice.\n"; break;
         }
     }
