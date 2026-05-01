@@ -1,5 +1,3 @@
-#include <windows.h>
-#include <psapi.h>
 #include "SearchingList.hpp"
 #include <iostream>
 #include <iomanip>
@@ -9,15 +7,6 @@ using namespace std;
 using namespace std::chrono;
 
 namespace SearchingList {
-
-    // getting memory usage with windows and psapi library
-    static size_t getMemoryUsage() {
-        PROCESS_MEMORY_COUNTERS_EX pmc;
-        if (GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc))) {
-            return pmc.PrivateUsage;
-        }
-        return 0;
-    }
 
     // print header
     static void printHeader() {
@@ -95,8 +84,6 @@ namespace SearchingList {
     void linearSearchAge(const LinkedList& list, int minAge, int maxAge) {
         LinkedList matches;
 
-        // get memory usage before search and start time
-        size_t memStart = getMemoryUsage();
         auto start = high_resolution_clock::now();
 
         Node* temp = list.getHead();
@@ -107,28 +94,17 @@ namespace SearchingList {
             temp = temp->next;
         }
 
-        // get end time and memory usage after search
         auto end = high_resolution_clock::now();
-        size_t memEnd = getMemoryUsage();
         duration<double, milli> elapsed = end - start;
 
-        size_t diff;
-        if (memEnd > memStart) {
-            diff = memEnd - memStart;
-        }       
-        else {
-            diff = 0;
-        }
-
-        printSearchResultTable(matches, elapsed.count(), diff);
+        size_t exactMemoryBytes = matches.totalMemoryBytes();
+        printSearchResultTable(matches, elapsed.count(), exactMemoryBytes);
     }
 
     // linear search transport
     void linearSearchTransport(const LinkedList& list, string mode) {
         LinkedList matches;
 
-        // get memory usage before search and start time
-        size_t memStart = getMemoryUsage();
         auto start = high_resolution_clock::now();
 
         Node* temp = list.getHead();
@@ -139,28 +115,17 @@ namespace SearchingList {
             temp = temp->next;
         }
         
-        // get end time and memory usage after search
         auto end = high_resolution_clock::now();
-        size_t memEnd = getMemoryUsage();
         duration<double, milli> elapsed = end - start;
-        
-        size_t diff;
-        if (memEnd > memStart) {
-            diff = memEnd - memStart;
-        } 
-        else {
-            diff = 0;
-        }
 
-        printSearchResultTable(matches, elapsed.count(), diff);
+        size_t exactMemoryBytes = matches.totalMemoryBytes();
+        printSearchResultTable(matches, elapsed.count(), exactMemoryBytes);
     }
 
     // linear search distance
     void linearSearchDistance(const LinkedList& list, int threshold) {
         LinkedList matches;
 
-        // get memory usage before search and start time
-        size_t memStart = getMemoryUsage();
         auto start = high_resolution_clock::now();
 
         Node* temp = list.getHead();
@@ -171,29 +136,17 @@ namespace SearchingList {
             temp = temp->next;
         }
 
-        // get end time and memory usage after search
         auto end = high_resolution_clock::now();
-        size_t memEnd = getMemoryUsage();
         duration<double, milli> elapsed = end - start;
-        
-        size_t diff;
-        if (memEnd > memStart) {
-            diff = memEnd - memStart;
-        } 
-        
-        else {
-            diff = 0;
-        }
 
-        printSearchResultTable(matches, elapsed.count(), diff);
+        size_t exactMemoryBytes = matches.totalMemoryBytes();
+        printSearchResultTable(matches, elapsed.count(), exactMemoryBytes);
     }
 
     // binary search age
     void binarySearchAge(const LinkedList& list, int minAge, int maxAge) {
         LinkedList matches;
 
-        // get memory usage before search and start time
-        size_t memStart = getMemoryUsage();
         auto start = high_resolution_clock::now();
         
         int count = getCount(list.getHead());
@@ -218,28 +171,16 @@ namespace SearchingList {
             }
         }
 
-        // get end time and memory usage after search
         auto end = high_resolution_clock::now();
-        size_t memEnd = getMemoryUsage();
         duration<double, milli> elapsed = end - start;
-        size_t diff;
-        
-        if (memEnd > memStart) {
-            diff = memEnd - memStart;
-        } 
-        
-        else {
-            diff = 0;
-        }
 
-        printSearchResultTable(matches, elapsed.count(), diff);
+        size_t exactMemoryBytes = matches.totalMemoryBytes();
+        printSearchResultTable(matches, elapsed.count(), exactMemoryBytes);
     }
 
     void binarySearchTransport(const LinkedList& list, string mode) {
         LinkedList matches;
 
-        //  get memory usage before search and start time
-        size_t memStart = getMemoryUsage();
         auto start = high_resolution_clock::now();
         
         int count = getCount(list.getHead());
@@ -264,28 +205,16 @@ namespace SearchingList {
             }
         }
 
-        // get end time and memory usage after search
         auto end = high_resolution_clock::now();
-        size_t memEnd = getMemoryUsage();
         duration<double, milli> elapsed = end - start;
 
-        size_t diff;
-        if (memEnd > memStart) {
-            diff = memEnd - memStart;
-        } 
-  
-        else {
-            diff = 0;
-        }
-
-        printSearchResultTable(matches, elapsed.count(), diff);
+        size_t exactMemoryBytes = matches.totalMemoryBytes();
+        printSearchResultTable(matches, elapsed.count(), exactMemoryBytes);
     }
 
     void binarySearchDistance(const LinkedList& list, int threshold) {
         LinkedList matches;
 
-        //  get memory usage before search and start time
-        size_t memStart = getMemoryUsage();
         auto start = high_resolution_clock::now();
         
         int count = getCount(list.getHead());
@@ -311,20 +240,10 @@ namespace SearchingList {
             }
         }
 
-        // get end time and memory usage after search
         auto end = high_resolution_clock::now();
-        size_t memEnd = getMemoryUsage();
         duration<double, milli> elapsed = end - start;
 
-        size_t diff;
-        if (memEnd > memStart) {
-            diff = memEnd - memStart;
-        } 
-        
-        else {
-            diff = 0;
-        }
-
-        printSearchResultTable(matches, elapsed.count(), diff);
+        size_t exactMemoryBytes = matches.totalMemoryBytes();
+        printSearchResultTable(matches, elapsed.count(), exactMemoryBytes);
     }
 }

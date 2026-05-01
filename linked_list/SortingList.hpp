@@ -4,8 +4,8 @@
 
 namespace SortingList {
     // Sorting functions for Linked List
-    double sortByAge(LinkedList& list, size_t& memUsed);
-    double sortByDistance(LinkedList& list, size_t& memUsed);
-    double sortByEmission(LinkedList& list, size_t& memUsed);
-    double sortByTransport(LinkedList& list, size_t& memUsed);
+    double sortByAge(LinkedList& list);
+    double sortByDistance(LinkedList& list);
+    double sortByEmission(LinkedList& list);
+    double sortByTransport(LinkedList& list);
 }

@@ -1,5 +1,3 @@
-#include <windows.h>
-#include <psapi.h>
 #include "Searching.hpp"
 #include <iostream>
 #include <iomanip>
@@ -9,15 +7,6 @@ using namespace std;
 using namespace std::chrono;
 
 namespace Searching {
-
-    // getting memory usage with windows and psapi library
-    static size_t getMemoryUsage() {
-        PROCESS_MEMORY_COUNTERS_EX pmc;
-        if (GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc))) {
-            return pmc.PrivateUsage;
-        }
-        return 0;
-    }
 
     static void printHeader() {
         cout << "+-------+-----+---------------+----------+---------+------+------------+\n";
@@ -66,8 +55,6 @@ namespace Searching {
     void linearSearchAge(const ResidentArray& arr, int minAge, int maxAge) {
         ResidentArray matches;
 
-        // get memory usage before search and start time
-        size_t memStart = getMemoryUsage();
         auto start = high_resolution_clock::now();
         for (int i = 0; i < arr.size(); i++) {
             const Resident& r = arr.get(i);
@@ -75,86 +62,51 @@ namespace Searching {
                 matches.add(r);
             }    
         }
-        // get end time and memory usage after search
         auto end = high_resolution_clock::now();
-        size_t memEnd = getMemoryUsage();
         duration<double, milli> elapsed = end - start;
 
-        size_t diff;
-        if (memEnd > memStart) {
-            diff = memEnd - memStart;
-        } 
-
-        else {
-            diff = 0;
-        }
-
-        printSearchResultTable(matches, elapsed.count(), diff);
+        size_t exactMemoryBytes = matches.totalMemoryBytes();
+        printSearchResultTable(matches, elapsed.count(), exactMemoryBytes);
     }
 
     // linear search transport
     void linearSearchTransport(const ResidentArray& arr, string mode) {
         ResidentArray matches;
 
-        // get memory usage before search and start time
-        size_t memStart = getMemoryUsage();
         auto start = high_resolution_clock::now();
         for (int i = 0; i < arr.size(); i++) {
             const Resident& r = arr.get(i);
             if (r.modeOfTransport == mode) matches.add(r);
         }
         
-        // get end time and memory usage after search
         auto end = high_resolution_clock::now();
-        size_t memEnd = getMemoryUsage();
         duration<double, milli> elapsed = end - start;
 
-        size_t diff;
-        if (memEnd > memStart) {
-            diff = memEnd - memStart;
-        } 
-
-        else {
-            diff = 0;
-        }
-
-        printSearchResultTable(matches, elapsed.count(), diff);
+        size_t exactMemoryBytes = matches.totalMemoryBytes();
+        printSearchResultTable(matches, elapsed.count(), exactMemoryBytes);
     }
 
     //  linear search distance
     void linearSearchDistance(const ResidentArray& arr, int threshold) {
         ResidentArray matches;
 
-        // get memory usage before search and start time
-        size_t memStart = getMemoryUsage();
         auto start = high_resolution_clock::now();
         for (int i = 0; i < arr.size(); i++) {
             const Resident& r = arr.get(i);
             if (r.dailyDistance > threshold) matches.add(r);
         }
 
-        // get end time and memory usage after search
         auto end = high_resolution_clock::now();
-        size_t memEnd = getMemoryUsage();
         duration<double, milli> elapsed = end - start;
 
-        size_t diff;
-        if (memEnd > memStart) {
-            diff = memEnd - memStart;
-        } 
-        else {
-            diff = 0;
-        }
-
-        printSearchResultTable(matches, elapsed.count(), diff);
+        size_t exactMemoryBytes = matches.totalMemoryBytes();
+        printSearchResultTable(matches, elapsed.count(), exactMemoryBytes);
     }
 
     // binary search age
     void binarySearchAge(const ResidentArray& arr, int minAge, int maxAge) {
         ResidentArray matches;
 
-        // get memory usage before search and start time
-        size_t memStart = getMemoryUsage();
         auto start = high_resolution_clock::now();
 
         // binary search to find the starting index of the age range
@@ -180,29 +132,17 @@ namespace Searching {
             }
         }
 
-        // get end time and memory usage after search
         auto end = high_resolution_clock::now();
-        size_t memEnd = getMemoryUsage();
         duration<double, milli> elapsed = end - start;
 
-        size_t diff;
-        if (memEnd > memStart) {
-            diff = memEnd - memStart;
-        } 
-
-        else {
-            diff = 0;
-        }
-
-        printSearchResultTable(matches, elapsed.count(), diff);
+        size_t exactMemoryBytes = matches.totalMemoryBytes();
+        printSearchResultTable(matches, elapsed.count(), exactMemoryBytes);
     }
 
     // binary search transport
     void binarySearchTransport(const ResidentArray& arr, string mode) {
         ResidentArray matches;
 
-        // get memory usage before search and start time
-        size_t memStart = getMemoryUsage();
         auto start = high_resolution_clock::now();
 
         int low = 0, high = arr.size() - 1, startIndex = -1;
@@ -229,29 +169,17 @@ namespace Searching {
             }
         }
 
-        // get end time and memory usage after search
         auto end = high_resolution_clock::now();
-        size_t memEnd = getMemoryUsage();
         duration<double, milli> elapsed = end - start;
 
-        size_t diff;
-        if (memEnd > memStart) {
-            diff = memEnd - memStart;
-        } 
-
-        else {
-            diff = 0;
-        }
-
-        printSearchResultTable(matches, elapsed.count(), diff);
+        size_t exactMemoryBytes = matches.totalMemoryBytes();
+        printSearchResultTable(matches, elapsed.count(), exactMemoryBytes);
     }
 
     // binary search distance
     void binarySearchDistance(const ResidentArray& arr, int threshold) {   
         ResidentArray matches;
 
-        // get memory usage before search and start time
-        size_t memStart = getMemoryUsage();
         auto start = high_resolution_clock::now();
 
         int low = 0, high = arr.size() - 1, startIndex = -1;
@@ -273,20 +201,10 @@ namespace Searching {
             }
         }
 
-        // get end time and memory usage after search
         auto end = high_resolution_clock::now();
-        size_t memEnd = getMemoryUsage();
         duration<double, milli> elapsed = end - start;
 
-        size_t diff;
-        if (memEnd > memStart) {
-            diff = memEnd - memStart;
-        } 
-        
-        else {
-            diff = 0;
-        }
-
-        printSearchResultTable(matches, elapsed.count(), diff);
+        size_t exactMemoryBytes = matches.totalMemoryBytes();
+        printSearchResultTable(matches, elapsed.count(), exactMemoryBytes);
     }
 }

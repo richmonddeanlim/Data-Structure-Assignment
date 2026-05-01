@@ -90,6 +90,17 @@ Node* LinkedList::getHead() const {
     return head;
 }
 
+// calculates the exact memory footprint of the LinkedList and all its nodes
+size_t LinkedList::totalMemoryBytes() const {
+    size_t total = sizeof(*this);
+    Node* temp = head;
+    while (temp != nullptr) {
+        total += sizeof(Node);
+        temp = temp->next;
+    }
+    return total;
+}
+
 // the destructor for the nodes in the linked list.
 LinkedList::~LinkedList() {
     Node* temp = head;

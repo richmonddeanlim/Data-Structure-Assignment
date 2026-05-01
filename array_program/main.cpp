@@ -8,9 +8,6 @@
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
-#include <windows.h>
-#include <psapi.h>
-
 using namespace std;
 
 static void printSeparator() {

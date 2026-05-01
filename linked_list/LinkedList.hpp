@@ -18,5 +18,6 @@ public:
     bool isEmpty();
     bool findResident(string residentID);
     Node* getHead() const;
+    size_t totalMemoryBytes() const;
     ~LinkedList();
 };
