@@ -1,15 +1,25 @@
 #include "Sorting.hpp"
 #include <chrono>
+#include <windows.h>
+#include <psapi.h>
 
 using namespace std::chrono;
 
 namespace Sorting {
+    // Helper to get memory usage 
+    static size_t getMemoryUsage() {
+        PROCESS_MEMORY_COUNTERS_EX pmc;
+        if (GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc))) {
+            return pmc.PrivateUsage;
+        }
+        return 0;
+    }
 
     // Sort By Age 
-    double sortByAge(ResidentArray& arr) {
-        int n = arr.size();
+    double sortByAge(ResidentArray& arr, size_t& memUsed) {
+        size_t memBefore = getMemoryUsage();
         auto start = high_resolution_clock::now();
-
+        int n = arr.size();
         for (int i = 0; i < n - 1; i++) {
             int minIdx = i;
             for (int j = i + 1; j < n; j++) {
@@ -19,15 +29,17 @@ namespace Sorting {
         }
 
         auto end = high_resolution_clock::now();
+        size_t memAfter = getMemoryUsage();
+        memUsed = (memAfter > memBefore) ? (memAfter - memBefore) : 0;
         duration<double> elapsed = end - start;
         return elapsed.count();
     }
 
     // Sort By Daily Distance
-    double sortByDistance(ResidentArray& arr) {
-        int n = arr.size();
+    double sortByDistance(ResidentArray& arr, size_t& memUsed) {
+        size_t memBefore = getMemoryUsage();
         auto start = high_resolution_clock::now();
-
+        int n = arr.size();
         for (int i = 0; i < n - 1; i++) {
             int minIdx = i;
             for (int j = i + 1; j < n; j++) {
@@ -37,15 +49,17 @@ namespace Sorting {
         }
 
         auto end = high_resolution_clock::now();
+        size_t memAfter = getMemoryUsage();
+        memUsed = (memAfter > memBefore) ? (memAfter - memBefore) : 0;
         duration<double> elapsed = end - start;
         return elapsed.count();
     }
 
     // Sort By Carbon Emission
-    double sortByEmission(ResidentArray& arr) {
-        int n = arr.size();
+    double sortByEmission(ResidentArray& arr, size_t& memUsed) {
+        size_t memBefore = getMemoryUsage();
         auto start = high_resolution_clock::now();
-
+        int n = arr.size();
         for (int i = 0; i < n - 1; i++) {
             int minIdx = i;
             for (int j = i + 1; j < n; j++) {
@@ -55,15 +69,17 @@ namespace Sorting {
         }
 
         auto end = high_resolution_clock::now();
+        size_t memAfter = getMemoryUsage();
+        memUsed = (memAfter > memBefore) ? (memAfter - memBefore) : 0;
         duration<double> elapsed = end - start;
         return elapsed.count();
     }
     
     // Sort By Transportation Mode
-    double sortByTransport(ResidentArray& arr) {
-        int n = arr.size();
+    double sortByTransport(ResidentArray& arr, size_t& memUsed) {
+        size_t memBefore = getMemoryUsage();
         auto start = high_resolution_clock::now();
-
+        int n = arr.size();
         for (int i = 0; i < n - 1; i++) {
             int minIdx = i;
             for (int j = i + 1; j < n; j++) {
@@ -73,6 +89,8 @@ namespace Sorting {
         }
 
         auto end = high_resolution_clock::now();
+        size_t memAfter = getMemoryUsage();
+        memUsed = (memAfter > memBefore) ? (memAfter - memBefore) : 0;
         duration<double> elapsed = end - start;
         return elapsed.count();
     }
