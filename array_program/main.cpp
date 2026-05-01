@@ -236,9 +236,9 @@ static void searchMenu(ResidentArray& residents) {
 
         else {
             cout << "Invalid mode of transport. (Note: Case-sensitive, e.g., 'Car', 'School Bus')" << endl;
-            return;
         }
 
+        cin.putback('\n');
     }
 
     else if (criteria == 3) {
