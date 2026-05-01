@@ -42,7 +42,7 @@ namespace CSVLoader {
     bool loadFromFile(const string& filename, ResidentArray& arr) {
         ifstream in(filename);
         if (!in.is_open()) {
-            cerr << "[CSVLoader] Could not open: " << filename << "\n";
+            cerr << "CSVLoader Could not open: " << filename << "\n";
             return false;
         }
 

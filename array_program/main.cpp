@@ -174,7 +174,7 @@ int main() {
 
     ResidentArray residents;
 
-    cout << "Loading datasets...\n";
+    cout << "Loading Residents Datasets\n";
     CSVLoader::loadAll(pathA, pathB, pathC, residents);
 
     int choice;
