@@ -5,40 +5,64 @@
 #include "SortingList.hpp"
 #include <iostream>
 #include <iomanip>
+#include <limits>
 
 using namespace std;
 
 void searchMenu(LinkedList& list) {
     int dataState, algorithm, criteria;
 
-<<<<<<< HEAD
     cout << "\n  Search Resident    " << endl;
     cout << "====================\n";
-=======
-    cout << "\n    Search Resident    " << endl;
-    cout << "==============================\n";
->>>>>>> 938d7e44f6d525a55ca7f8ee7f83fbd12b9d06d1
     cout << "Select Data State:" << endl;
     cout << "1. Unsorted Data" << endl;
     cout << "2. Sorted Data" << endl;
     cout << "3. Back" << endl;
     cout << "Choice: ";
-    cin >> dataState;
-
-    if (dataState == 3) return;
+    
+    if (!(cin >> dataState) || dataState == 3) {
+        if (cin.fail()) {
+            cin.clear(); 
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Returning to menu." << endl;
+        }
+        return;
+    }
 
     if (dataState == 1) {
         cout << "\nSelect Algorithm:" << endl;
         cout << "1. Linear Search" << endl;
         cout << "Choice: ";
-        cin >> algorithm;
-        algorithm = 1; 
-    } else {
+        if (!(cin >> algorithm)) {
+            cin.clear(); 
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Returning to menu." << endl;
+            return;
+        }
+        if (algorithm != 1) {
+            cout << "Invalid choice for unsorted data. Defaulting to Linear Search." << endl;
+            algorithm = 1;
+        }
+    } 
+    else if (dataState == 2) {
         cout << "\nSelect Algorithm:" << endl;
         cout << "1. Linear Search" << endl;
         cout << "2. Binary Search" << endl;
         cout << "Choice: ";
-        cin >> algorithm;
+        if (!(cin >> algorithm)) {
+            cin.clear(); 
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Returning to menu." << endl;
+            return;
+        }
+        if (algorithm < 1 || algorithm > 2) {
+            cout << "Invalid choice. Defaulting to Linear Search." << endl;
+            algorithm = 1;
+        }
+    }
+    else {
+        cout << "Invalid selection. Returning to menu." << endl;
+        return;
     }
 
     cout << "\nSelect Criteria:" << endl;
@@ -46,68 +70,121 @@ void searchMenu(LinkedList& list) {
     cout << "2. Mode of Transport" << endl;
     cout << "3. Distance Threshold" << endl;
     cout << "Choice: ";
-    cin >> criteria;
+    if (!(cin >> criteria)) {
+        cin.clear(); 
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid input. Returning to menu." << endl;
+        return;
+    }
 
     // Trigger Sorting if "Sorted Data" is selected
     if (dataState == 2) {
         cout << "\n[Running Sorting Experiment...]" << endl;
         double sortTime = 0;
-        size_t memUsed = 0;
-        if (criteria == 1) sortTime = SortingList::sortByAge(list, memUsed);
-        else if (criteria == 2) sortTime = SortingList::sortByTransport(list, memUsed);
-        else if (criteria == 3) sortTime = SortingList::sortByDistance(list, memUsed);
-        cout << "Selection Sort completed in " << fixed << setprecision(6) << sortTime << " seconds." << endl;
-        cout << "Memory Used: " << memUsed << " bytes" << endl;
-    }
 
+        if (criteria == 1) {
+            sortTime = SortingList::sortByAge(list);
+        }
+        else if (criteria == 2) {
+            sortTime = SortingList::sortByTransport(list);
+        }
+        else if (criteria == 3){
+            sortTime = SortingList::sortByDistance(list);
+        }    
+        else {
+            cout << "Invalid criteria for sorting. Returning." << endl;
+            return;
+        }
+        
+        cout << "Selection Sort completed in " << fixed << setprecision(6) << sortTime << " seconds." << endl;
+    }
+    
     // Execute Search
     if (criteria == 1) {
         int minAge, maxAge;
-        cout << "Enter min age: "; cin >> minAge;
-        cout << "Enter max age: "; cin >> maxAge;
-        if (algorithm == 1) SearchingList::linearSearchAge(list, minAge, maxAge);
-        else SearchingList::binarySearchAge(list, minAge, maxAge);
+        while (true) {
+            cout << "Enter min age: "; 
+            if (!(cin >> minAge)) {
+                cin.clear(); 
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Invalid input. Please enter a number." << endl;
+                continue;
+            }
+            cout << "Enter max age: "; 
+            if (!(cin >> maxAge)) {
+                cin.clear(); 
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Invalid input. Please enter a number." << endl;
+                continue;
+            }
+            if (minAge > maxAge) {
+                cout << "Error: Min age cannot be greater than max age. Please try again." << endl;
+            } else if (minAge < 0 || maxAge < 0) {
+                cout << "Error: Age cannot be negative. Please try again." << endl;
+            } else {
+                break;
+            }
+        }
+        
+        if (algorithm == 1) {
+            SearchingList::linearSearchAge(list, minAge, maxAge);
+        }
+
+        else {
+            SearchingList::binarySearchAge(list, minAge, maxAge);
+        }
     } 
+
     else if (criteria == 2) {
         string mode;
         cout << "Enter mode of transport: ";
-        cin >> mode;
-        if (algorithm == 1) SearchingList::linearSearchTransport(list, mode);
-        else SearchingList::binarySearchTransport(list, mode);
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        getline(cin, mode);
+
+        // Simple check for valid modes
+        if (mode == "Bicycle" || mode == "Bus" || mode == "Car" || mode == "Carpool" || mode == "School Bus" || mode == "Walking") {
+            // valid input
+            if (algorithm == 1) {
+                SearchingList::linearSearchTransport(list, mode);
+            }
+    
+            else {
+                SearchingList::binarySearchTransport(list, mode);
+            }
+        }
+        else {
+            cout << "Invalid mode of transport. (Note: Case-sensitive, e.g., 'Car', 'School Bus')" << endl;
+            return;
+        }
     }
+
     else if (criteria == 3) {
         int threshold;
-        cout << "Enter distance threshold: "; cin >> threshold;
-        if (algorithm == 1) SearchingList::linearSearchDistance(list, threshold);
-        else SearchingList::binarySearchDistance(list, threshold);
+        while (true) {
+            cout << "Enter distance threshold: "; 
+            if (!(cin >> threshold)) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Invalid input. Please enter a number." << endl;
+            } 
+            
+            else if (threshold < 0) {
+                cout << "Error: Threshold cannot be negative." << endl;
+            } 
+            
+            else {
+                break;
+            }
+        }
+        
+        if (algorithm == 1) {
+            SearchingList::linearSearchDistance(list, threshold);
+        }
+
+        else {
+            SearchingList::binarySearchDistance(list, threshold);
+        }
     }
-}
-
-//The menu for sorting
-void sortMenu(LinkedList& list) {
-    int criteria;
-    cout << "\n   Sort Residents   " << endl;
-    cout << "==============================\n";
-    cout << "Select Criteria:" << endl;
-    cout << "1. Age" << endl;
-    cout << "2. Carbon Emission" << endl;
-    cout << "3. Daily Distance" << endl;
-    cout << "4. Back" << endl;
-    cout << "Choice: ";
-    cin >> criteria;
-
-    if (criteria == 4) return;
-
-    double sortTime = 0;
-    size_t memUsed = 0;
-    if (criteria == 1) sortTime = SortingList::sortByAge(list, memUsed);
-    else if (criteria == 2) sortTime = SortingList::sortByEmission(list, memUsed);
-    else if (criteria == 3) sortTime = SortingList::sortByDistance(list, memUsed);
-
-    cout << "\n[Success] Selection Sort completed in " << fixed << setprecision(6) << sortTime << " seconds." << endl;
-    cout << "Memory Used: " << memUsed << " bytes" << endl;
-    cout << "\n--- Sorted Results---\n";
-    list.displayResidents();
 }
 
 // The menu function to display the operations.
@@ -119,8 +196,7 @@ void menu (LinkedList& list, string cityname) {
         cout << "2. Display Residents" << endl;
         cout << "3. Remove Resident" << endl;
         cout << "4. Search Resident" << endl;
-        cout << "5. Sort Residents" << endl;
-        cout << "6. Back" << endl;
+        cout << "5. Back" << endl;
         cout << "Select an option: ";
         cin >> option;
         switch(option){
@@ -203,16 +279,13 @@ void menu (LinkedList& list, string cityname) {
                 searchMenu(list);
                 break;
             case 5:
-                sortMenu(list);
-                break;
-            case 6:
                 cout << "Going back..." << endl;
                 return;
             default:
                 cout << "Invalid option. Please choose a valid option!" << endl;
                 break;
         }
-    }while (option != 6);
+    }while (option != 5);
 }
 
 // the function to display the menu for all cities.
