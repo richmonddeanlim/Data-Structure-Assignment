@@ -5,6 +5,7 @@
 #include <iostream>
 #include <iomanip>
 #include <limits>
+#define NOMINMAX
 #include <windows.h>
 #include <psapi.h>
 

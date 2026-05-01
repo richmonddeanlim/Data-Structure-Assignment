@@ -64,9 +64,7 @@ namespace CSVLoader {
             } else {
                 skipped++;
             } }
-        cout << "[CSVLoader] " << filename
-             << " -> loaded " << loaded
-             << ", skipped " << skipped << "\n";
+        cout << "CSVLoader " << filename << " -> loaded " << loaded << ", skipped " << skipped << "\n";
         return true;
     }
 
