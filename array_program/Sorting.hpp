@@ -2,8 +2,9 @@
 #include "ResidentArray.hpp"
 
 namespace Sorting {
-    double sortByAge(ResidentArray& arr);
-    double sortByDistance(ResidentArray& arr);
-    double sortByEmission(ResidentArray& arr);
-    double sortByTransport(ResidentArray& arr); 
+    // Sorting functions for Array
+    double sortByAge(ResidentArray& arr, size_t& memUsed);
+    double sortByDistance(ResidentArray& arr, size_t& memUsed);
+    double sortByEmission(ResidentArray& arr, size_t& memUsed);
+    double sortByTransport(ResidentArray& arr, size_t& memUsed); 
 }
