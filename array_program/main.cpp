@@ -91,99 +91,94 @@ static void searchMenu(ResidentArray& residents) {
     cout << "Choice: ";
     cin >> dataState;
 
-    
+    if (dataState == 3) return;
+
     if (dataState == 1) {
         cout << "\nSelect Algorithm:" << endl;
         cout << "1. Linear Search" << endl;
         cout << "Choice: ";
         cin >> algorithm;
-
-        if (algorithm != 1) {
-            cout << "Invalid choice. Defaulting to Linear Search." << endl;
-            algorithm = 1;
-        }
-
-        else{
-            cout << "pls input an integer" << endl;
-        }
-    } 
-    
-    else {
+        algorithm = 1; // Ensure it stays 1 even if they type something else
+    } else {
         cout << "\nSelect Algorithm:" << endl;
         cout << "1. Linear Search" << endl;
         cout << "2. Binary Search" << endl;
         cout << "Choice: ";
         cin >> algorithm;
     }
-    
+
     cout << "\nSelect Criteria:" << endl;
     cout << "1. Age Range" << endl;
     cout << "2. Mode of Transport" << endl;
     cout << "3. Distance Threshold" << endl;
     cout << "Choice: ";
     cin >> criteria;
-    
+
     // Trigger Sorting if "Sorted Data" is selected
     if (dataState == 2) {
         cout << "\n[Running Sorting Experiment...]" << endl;
         double sortTime = 0;
-
-        if (criteria == 1){
-            sortTime = Sorting::sortByAge(residents);
-        }
-
-        else if (criteria == 2){
-            sortTime = Sorting::sortByTransport(residents);
-        }
-
-        else if (criteria == 3) {
-            sortTime = Sorting::sortByDistance(residents);
-        }
+        size_t memused = 0;
+        if (criteria == 1) sortTime = Sorting::sortByAge(residents, memused);
+        else if (criteria == 2) sortTime = Sorting::sortByTransport(residents, memused);
+        else if (criteria == 3) sortTime = Sorting::sortByDistance(residents, memused);
         cout << "Selection Sort completed in " << fixed << setprecision(6) << sortTime << " seconds." << endl;
+        cout << "Memory used: " << memused << " bytes" << endl;
     }
-    
-    if (dataState == 3){ 
-        return;
-    }
-    
+
     // Execute Search
     if (criteria == 1) {
         int minAge, maxAge;
         cout << "Enter min age: "; cin >> minAge;
         cout << "Enter max age: "; cin >> maxAge;
-        
-        if (algorithm == 1) {
-            Searching::linearSearchAge(residents, minAge, maxAge);
-        } 
-        
-        else {
-            Searching::binarySearchAge(residents, minAge, maxAge);
-        }
+        if (algorithm == 1) Searching::linearSearchAge(residents, minAge, maxAge);
+        else Searching::binarySearchAge(residents, minAge, maxAge);
     } 
-
     else if (criteria == 2) {
         string mode;
         cout << "Enter mode of transport: ";
         cin >> mode;
-
-        if (algorithm == 1){
-            Searching::linearSearchTransport(residents, mode);
-        }
-
-        else {
-            Searching::binarySearchTransport(residents, mode);
-        }
+        if (algorithm == 1) Searching::linearSearchTransport(residents, mode);
+        else Searching::binarySearchTransport(residents, mode);
     }
     else if (criteria == 3) {
         int threshold;
         cout << "Enter distance threshold: "; cin >> threshold;
-        if (algorithm == 1){
-            Searching::linearSearchDistance(residents, threshold);
-        }
+        if (algorithm == 1) Searching::linearSearchDistance(residents, threshold);
+        else Searching::binarySearchDistance(residents, threshold);
+    }
+}
 
-        else {
-            Searching::binarySearchDistance(residents, threshold);
-        }
+static void sortMenu(ResidentArray& residents) {
+    int criteria;
+
+    cout << "\n   Sort Residents   " << endl;
+    cout << "-------------------------\n";
+    cout << "Select Criteria:" << endl;
+    cout << "1. Age" << endl;
+    cout << "2. Carbon Emission" << endl;
+    cout << "3. Daily Distance" << endl;
+    cout << "4. Back" << endl;
+    cout << "Choice: ";
+    cin >> criteria;
+
+    if (criteria == 4) return;
+
+    double sortTime = 0;
+    size_t memused = 0;
+    bool sorted = true;
+    if (criteria == 1) sortTime = Sorting::sortByAge(residents, memused);
+    else if (criteria == 2) sortTime = Sorting::sortByEmission(residents, memused);
+    else if (criteria == 3) sortTime = Sorting::sortByDistance(residents, memused);
+    
+    if (sorted) {
+        cout << "\n[Success] Selection Sort completed in " << fixed << setprecision(6) << sortTime << " seconds." << endl;
+        cout << "Memory used: " << memused << " bytes" << endl;
+        
+        cout << "\n--- Sorted Results---\n";
+        printTable(residents, -1); 
+    } else {
+        cout << "Invalid criteria selected.\n";
     }
 }
 
@@ -196,6 +191,7 @@ static void printMenu() {
     cout << "  3. Display ALL residents\n";
     cout << "  4. Carbon Emission Analysis\n";
     cout << "  5. Search Resident\n";
+    cout << "  6. Sort Residents\n";
     cout << "  0. Exit\n";
     cout << "------------------------------------------\n";
     cout << "  Choice: ";
@@ -207,6 +203,7 @@ static void clearScreen() {
 
 static void pauseAndContinue() {
     cout << "\nPress Enter to continue...";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     cin.get();
     system("cls");
 }
@@ -414,7 +411,15 @@ int main() {
                 searchMenu(residents);
                 pauseAndContinue();
                 break;
+
+            case 6:
+                sortMenu(residents);
+                pauseAndContinue();
+                break;
+
             default: cout << "Invalid choice.\n"; break;
+
         }
+        
     }
 }
