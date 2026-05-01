@@ -20,15 +20,16 @@ void searchMenu(LinkedList& list) {
     cout << "Choice: ";
     cin >> dataState;
 
-    if (dataState == 3) return;
-
+    
     if (dataState == 1) {
         cout << "\nSelect Algorithm:" << endl;
         cout << "1. Linear Search" << endl;
         cout << "Choice: ";
         cin >> algorithm;
         algorithm = 1; 
-    } else {
+    } 
+    
+    else {
         cout << "\nSelect Algorithm:" << endl;
         cout << "1. Linear Search" << endl;
         cout << "2. Binary Search" << endl;
@@ -47,32 +48,63 @@ void searchMenu(LinkedList& list) {
     if (dataState == 2) {
         cout << "\n[Running Sorting Experiment...]" << endl;
         double sortTime = 0;
-        if (criteria == 1) sortTime = SortingList::sortByAge(list);
-        else if (criteria == 2) sortTime = SortingList::sortByTransport(list);
-        else if (criteria == 3) sortTime = SortingList::sortByDistance(list);
+
+        if (criteria == 1) {
+            sortTime = SortingList::sortByAge(list);
+        }
+        
+        else if (criteria == 2) {
+            sortTime = SortingList::sortByTransport(list);
+        }
+        
+        else if (criteria == 3){
+            sortTime = SortingList::sortByDistance(list);
+        }    
+        
         cout << "Selection Sort completed in " << fixed << setprecision(6) << sortTime << " seconds." << endl;
     }
-
+    
+    if (dataState == 3) {
+        return;
+    }
     // Execute Search
     if (criteria == 1) {
         int minAge, maxAge;
         cout << "Enter min age: "; cin >> minAge;
         cout << "Enter max age: "; cin >> maxAge;
-        if (algorithm == 1) SearchingList::linearSearchAge(list, minAge, maxAge);
-        else SearchingList::binarySearchAge(list, minAge, maxAge);
+        if (algorithm == 1) {
+            SearchingList::linearSearchAge(list, minAge, maxAge);
+        }
+
+        else {
+            SearchingList::binarySearchAge(list, minAge, maxAge);
+        }
     } 
+
     else if (criteria == 2) {
         string mode;
         cout << "Enter mode of transport: ";
         cin >> mode;
-        if (algorithm == 1) SearchingList::linearSearchTransport(list, mode);
-        else SearchingList::binarySearchTransport(list, mode);
+        if (algorithm == 1) {
+            SearchingList::linearSearchTransport(list, mode);
+        }
+
+        else {
+            SearchingList::binarySearchTransport(list, mode);
+        }
     }
+
     else if (criteria == 3) {
         int threshold;
         cout << "Enter distance threshold: "; cin >> threshold;
-        if (algorithm == 1) SearchingList::linearSearchDistance(list, threshold);
-        else SearchingList::binarySearchDistance(list, threshold);
+        
+        if (algorithm == 1) {
+            SearchingList::linearSearchDistance(list, threshold);
+        }
+
+        else {
+            SearchingList::binarySearchDistance(list, threshold);
+        }
     }
 }
 

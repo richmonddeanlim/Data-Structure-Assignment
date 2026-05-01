@@ -91,59 +91,99 @@ static void searchMenu(ResidentArray& residents) {
     cout << "Choice: ";
     cin >> dataState;
 
-    if (dataState == 3) return;
-
+    
     if (dataState == 1) {
         cout << "\nSelect Algorithm:" << endl;
         cout << "1. Linear Search" << endl;
         cout << "Choice: ";
         cin >> algorithm;
-        algorithm = 1; // Ensure it stays 1 even if they type something else
-    } else {
+
+        if (algorithm != 1) {
+            cout << "Invalid choice. Defaulting to Linear Search." << endl;
+            algorithm = 1;
+        }
+
+        else{
+            cout << "pls input an integer" << endl;
+        }
+    } 
+    
+    else {
         cout << "\nSelect Algorithm:" << endl;
         cout << "1. Linear Search" << endl;
         cout << "2. Binary Search" << endl;
         cout << "Choice: ";
         cin >> algorithm;
     }
-
+    
     cout << "\nSelect Criteria:" << endl;
     cout << "1. Age Range" << endl;
     cout << "2. Mode of Transport" << endl;
     cout << "3. Distance Threshold" << endl;
     cout << "Choice: ";
     cin >> criteria;
-
+    
     // Trigger Sorting if "Sorted Data" is selected
     if (dataState == 2) {
         cout << "\n[Running Sorting Experiment...]" << endl;
         double sortTime = 0;
-        if (criteria == 1) sortTime = Sorting::sortByAge(residents);
-        else if (criteria == 2) sortTime = Sorting::sortByTransport(residents);
-        else if (criteria == 3) sortTime = Sorting::sortByDistance(residents);
+
+        if (criteria == 1){
+            sortTime = Sorting::sortByAge(residents);
+        }
+
+        else if (criteria == 2){
+            sortTime = Sorting::sortByTransport(residents);
+        }
+
+        else if (criteria == 3) {
+            sortTime = Sorting::sortByDistance(residents);
+        }
         cout << "Selection Sort completed in " << fixed << setprecision(6) << sortTime << " seconds." << endl;
     }
-
+    
+    if (dataState == 3){ 
+        return;
+    }
+    
     // Execute Search
     if (criteria == 1) {
         int minAge, maxAge;
         cout << "Enter min age: "; cin >> minAge;
         cout << "Enter max age: "; cin >> maxAge;
-        if (algorithm == 1) Searching::linearSearchAge(residents, minAge, maxAge);
-        else Searching::binarySearchAge(residents, minAge, maxAge);
+        
+        if (algorithm == 1) {
+            Searching::linearSearchAge(residents, minAge, maxAge);
+        } 
+        
+        else {
+            Searching::binarySearchAge(residents, minAge, maxAge);
+        }
     } 
+
     else if (criteria == 2) {
         string mode;
         cout << "Enter mode of transport: ";
         cin >> mode;
-        if (algorithm == 1) Searching::linearSearchTransport(residents, mode);
-        else Searching::binarySearchTransport(residents, mode);
+
+        if (algorithm == 1){
+            Searching::linearSearchTransport(residents, mode);
+        }
+
+        else {
+            Searching::binarySearchTransport(residents, mode);
+        }
     }
     else if (criteria == 3) {
         int threshold;
         cout << "Enter distance threshold: "; cin >> threshold;
-        if (algorithm == 1) Searching::linearSearchDistance(residents, threshold);
-        else Searching::binarySearchDistance(residents, threshold);
+        if (algorithm == 1){
+            Searching::linearSearchDistance(residents, threshold);
+        }
+
+        else {
+            Searching::binarySearchDistance(residents, threshold);
+        }
     }
 }
 
