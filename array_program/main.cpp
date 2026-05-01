@@ -77,8 +77,6 @@ static void printStatus(const ResidentArray& arr) {
     cout << "  Grand total        : " << total  << " bytes ("
          << fixed << setprecision(2) << total  / 1024.0 << " KB)\n";
     cout << "--------------------------------------------------\n";
-    cout << "\nPress Enter to continue...";
-    cin.get();
 }
 
 static void searchMenu(ResidentArray& residents) {
@@ -167,6 +165,12 @@ static void clearScreen() {
     system("cls");
 }
 
+static void pauseAndContinue() {
+    cout << "\nPress Enter to continue...";
+    cin.get();
+    system("cls");
+}
+
 int main() {
     const string pathA = "../dataset/dataset1-cityA.csv";
     const string pathB = "../dataset/dataset2-cityB.csv";
@@ -191,12 +195,21 @@ int main() {
         }
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-        clearScreen();
+        system("cls");
         switch (choice) {
             case 0: cout << "Goodbye.\n"; return 0;
-            case 1: printStatus(residents);    break;
-            case 2: printTable(residents, 20); break;
-            case 3: printTable(residents);     break;
+            case 1:
+                printStatus(residents);
+                pauseAndContinue();
+                break;
+            case 2:
+                printTable(residents, 20);
+                pauseAndContinue();
+                break;
+            case 3:
+                printTable(residents);
+                pauseAndContinue();
+                break;
             case 4:
             {
             const int DATASET_COUNT = 3;
@@ -353,12 +366,14 @@ int main() {
 
             cout << "+------------+------------+----------------+----------------+\n";
 
-            cout << "\nPress Enter to continue...";
-            cin.get();
+            pauseAndContinue();
 
             break;
         }
-            case 5: searchMenu(residents);     break;
+            case 5:
+                searchMenu(residents);
+                pauseAndContinue();
+                break;
             default: cout << "Invalid choice.\n"; break;
         }
     }
