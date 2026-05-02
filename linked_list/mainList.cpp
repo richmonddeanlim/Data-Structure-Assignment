@@ -207,9 +207,15 @@ void sortMenu(LinkedList& list) {
 
     double sortTime = 0;
     size_t memUsed = 0;
-    if (criteria == 1) sortTime = SortingList::sortByAge(list, memUsed);
-    else if (criteria == 2) sortTime = SortingList::sortByEmission(list, memUsed);
-    else if (criteria == 3) sortTime = SortingList::sortByDistance(list, memUsed);
+    if (criteria == 1) {
+        sortTime = SortingList::sortByAge(list, memUsed);
+    }
+    else if (criteria == 2) {
+        sortTime = SortingList::sortByEmission(list, memUsed);
+    }
+    else if (criteria == 3) {
+        sortTime = SortingList::sortByDistance(list, memUsed);
+    }
     else {
         cout << "Invalid choice. Please choose a valid option!" << endl;
         return;
@@ -333,7 +339,8 @@ void allcities(LinkedList& cityA, LinkedList& cityB, LinkedList& cityC) {
         cout << "1. Add Resident "<< endl;
         cout << "2. Display Residents" << endl;
         cout << "3. Remove Resident" << endl;
-        cout << "4. Back" << endl;
+        cout << "4. Search Resident" << endl;
+        cout << "5. Back" << endl;
         cout << "Select an option: ";
         cin >> option;
         switch(option){
@@ -451,7 +458,25 @@ void allcities(LinkedList& cityA, LinkedList& cityB, LinkedList& cityC) {
                 break;
             }
 
-            case 4:
+            case 4: {
+                LinkedList allList;
+                Node* temp = cityA.getHead();
+                while(temp) { 
+                    allList.addResident(temp->data); temp = temp->next; 
+                }
+                temp = cityB.getHead();
+                while(temp) { 
+                    allList.addResident(temp->data); temp = temp->next; 
+                }
+                temp = cityC.getHead();
+                while(temp) { 
+                    allList.addResident(temp->data); temp = temp->next; 
+                }
+                searchMenu(allList);
+                break;
+            }
+
+            case 5:
                 cout << "Going back..." << endl;
                 return;
 
@@ -459,7 +484,7 @@ void allcities(LinkedList& cityA, LinkedList& cityB, LinkedList& cityC) {
                 cout << "Invalid option. Please choose a valid option!" << endl;
                 break;
         }
-    } while (option != 4);
+    } while (option != 5);
 }
 
 // the function to display the main menu for city selection
