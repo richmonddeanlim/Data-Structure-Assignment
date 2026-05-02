@@ -7,7 +7,7 @@ using namespace std::chrono;
 
 namespace SortingList {
     // Sort By Age
-    double sortByAge(LinkedList& list) {
+    double sortByAge(LinkedList& list, size_t& memUsed) {
         auto start = high_resolution_clock::now();
         
         for (Node* i = list.getHead(); i != nullptr && i->next != nullptr; i = i->next) {
@@ -25,11 +25,21 @@ namespace SortingList {
         auto end = high_resolution_clock::now();
         
         duration<double> elapsed = end - start;
+
+        // memory usage
+        memUsed = list.totalMemoryBytes();
+
+        // print
+        cout << "\n[Performance]\n";
+        auto elapsed_ms = chrono::duration_cast<chrono::milliseconds>(elapsed);
+        cout << "Execution Time: " << elapsed_ms.count() << " milliseconds\n";
+        cout << "Memory Used   : " << memUsed << " bytes\n";
+
         return elapsed.count();
     }
 
     // Sort By Daily Distance
-    double sortByDistance(LinkedList& list) {
+    double sortByDistance(LinkedList& list, size_t& memUsed) {
         auto start = high_resolution_clock::now();
         
         for (Node* i = list.getHead(); i != nullptr && i->next != nullptr; i = i->next) {
@@ -46,12 +56,22 @@ namespace SortingList {
 
         auto end = high_resolution_clock::now();
         
-        duration<double> elapsed = end - start; 
+        duration<double> elapsed = end - start;
+
+        // memory usage
+        memUsed = list.totalMemoryBytes();
+
+        // print
+        cout << "\n[Performance]\n";
+        auto elapsed_ms = chrono::duration_cast<chrono::milliseconds>(elapsed);
+        cout << "Execution Time: " << elapsed_ms.count() << " milliseconds\n";
+        cout << "Memory Used   : " << memUsed << " bytes\n";
+
         return elapsed.count();
     }
 
     // Sort By Carbon Emission
-    double sortByEmission(LinkedList& list) {
+    double sortByEmission(LinkedList& list, size_t& memUsed) {
         auto start = high_resolution_clock::now();
         
         for (Node* i = list.getHead(); i != nullptr && i->next != nullptr; i = i->next) {
@@ -69,11 +89,21 @@ namespace SortingList {
         auto end = high_resolution_clock::now();
         
         duration<double> elapsed = end - start;
+
+        // memory usage
+        memUsed = list.totalMemoryBytes();
+
+        // print
+        cout << "\n[Performance]\n";
+        auto elapsed_ms = chrono::duration_cast<chrono::milliseconds>(elapsed);
+        cout << "Execution Time: " << elapsed_ms.count() << " milliseconds\n";
+        cout << "Memory Used   : " << memUsed << " bytes\n";
+
         return elapsed.count();
     }
 
     // Sort By Transportation Mode
-    double sortByTransport(LinkedList& list) {
+    double sortByTransport(LinkedList& list, size_t& memUsed) {
         auto start = high_resolution_clock::now();
         
         for (Node* i = list.getHead(); i != nullptr && i->next != nullptr; i = i->next) {
@@ -91,6 +121,16 @@ namespace SortingList {
         auto end = high_resolution_clock::now();
         
         duration<double> elapsed = end - start;
+
+        // memory usage
+        memUsed = list.totalMemoryBytes();
+
+        // print
+        cout << "\n[Performance]\n";
+        auto elapsed_ms = chrono::duration_cast<chrono::milliseconds>(elapsed);
+        cout << "Execution Time: " << elapsed_ms.count() << " milliseconds\n";
+        cout << "Memory Used   : " << memUsed << " bytes\n";
+
         return elapsed.count();
     }
 }
