@@ -81,15 +81,16 @@ void searchMenu(LinkedList& list) {
     if (dataState == 2) {
         cout << "\n[Running Sorting Experiment...]" << endl;
         double sortTime = 0;
+        size_t memused = 0;
 
         if (criteria == 1) {
-            sortTime = SortingList::sortByAge(list);
+            sortTime = SortingList::sortByAge(list, memused);
         }
         else if (criteria == 2) {
-            sortTime = SortingList::sortByTransport(list);
+            sortTime = SortingList::sortByTransport(list, memused);
         }
         else if (criteria == 3){
-            sortTime = SortingList::sortByDistance(list);
+            sortTime = SortingList::sortByDistance(list, memused);
         }    
         else {
             cout << "Invalid criteria for sorting. Returning." << endl;
@@ -97,6 +98,7 @@ void searchMenu(LinkedList& list) {
         }
         
         cout << "Selection Sort completed in " << fixed << setprecision(6) << sortTime << " seconds." << endl;
+        cout << "Memory used: " << memused << " bytes" << endl;
     }
     
     // Execute Search
