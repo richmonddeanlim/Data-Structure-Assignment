@@ -79,7 +79,6 @@ void searchMenu(LinkedList& list) {
 
     // Trigger Sorting if "Sorted Data" is selected
     if (dataState == 2) {
-        cout << "\n[Running Sorting Experiment...]" << endl;
         double sortTime = 0;
 
         if (criteria == 1) {
@@ -119,9 +118,11 @@ void searchMenu(LinkedList& list) {
             }
             if (minAge > maxAge) {
                 cout << "Error: Min age cannot be greater than max age. Please try again." << endl;
-            } else if (minAge < 0 || maxAge < 0) {
+            } 
+            else if (minAge < 0 || maxAge < 0) {
                 cout << "Error: Age cannot be negative. Please try again." << endl;
-            } else {
+            } 
+            else {
                 break;
             }
         }

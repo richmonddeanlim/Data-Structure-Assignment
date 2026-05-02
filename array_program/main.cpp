@@ -152,7 +152,6 @@ static void searchMenu(ResidentArray& residents) {
 
     // Trigger Sorting if "Sorted Data" is selected
     if (dataState == 2) {
-        cout << "\n[Running Sorting Experiment...]" << endl;
         double sortTime = 0;
         size_t memused = 0;
 
