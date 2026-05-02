@@ -190,6 +190,36 @@ void searchMenu(LinkedList& list) {
     }
 }
 
+//The menu for sorting
+void sortMenu(LinkedList& list) {
+    int criteria;
+    cout << "\n   Sort Residents   " << endl;
+    cout << "==============================\n";
+    cout << "Select Criteria:" << endl;
+    cout << "1. Age" << endl;
+    cout << "2. Carbon Emission" << endl;
+    cout << "3. Daily Distance" << endl;
+    cout << "4. Back" << endl;
+    cout << "Choice: ";
+    cin >> criteria;
+
+    if (criteria == 4) return;
+
+    double sortTime = 0;
+    size_t memUsed = 0;
+    if (criteria == 1) sortTime = SortingList::sortByAge(list, memUsed);
+    else if (criteria == 2) sortTime = SortingList::sortByEmission(list, memUsed);
+    else if (criteria == 3) sortTime = SortingList::sortByDistance(list, memUsed);
+    else {
+        cout << "Invalid choice. Please choose a valid option!" << endl;
+        return;
+    }
+    cout << "\n[Success] Selection Sort completed in " << fixed << setprecision(6) << sortTime << " seconds." << endl;
+    cout << "Memory Used: " << memUsed << " bytes" << endl;
+    cout << "\n--- Sorted Results---\n";
+    list.displayResidents();
+}
+
 // The menu function to display the operations.
 void menu (LinkedList& list, string cityname) {
     int option;
@@ -199,7 +229,8 @@ void menu (LinkedList& list, string cityname) {
         cout << "2. Display Residents" << endl;
         cout << "3. Remove Resident" << endl;
         cout << "4. Search Resident" << endl;
-        cout << "5. Back" << endl;
+        cout << "5. Sort Resident" << endl;
+        cout << "6. Back" << endl;
         cout << "Select an option: ";
         cin >> option;
         switch(option){
@@ -282,13 +313,16 @@ void menu (LinkedList& list, string cityname) {
                 searchMenu(list);
                 break;
             case 5:
+                sortMenu(list);
+                break;
+            case 6:
                 cout << "Going back..." << endl;
                 return;
             default:
                 cout << "Invalid option. Please choose a valid option!" << endl;
                 break;
         }
-    }while (option != 5);
+    }while (option != 6);
 }
 
 // the function to display the menu for all cities.
