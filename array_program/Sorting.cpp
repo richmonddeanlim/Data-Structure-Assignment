@@ -1,5 +1,8 @@
 #include "Sorting.hpp"
 #include <chrono>
+#include <iostream>
+
+using namespace std;
 using namespace std::chrono;
 
 namespace Sorting {
@@ -16,8 +19,17 @@ namespace Sorting {
         }
 
         auto end = high_resolution_clock::now();
-        memUsed = 0;
         duration<double> elapsed = end - start;
+
+        // memory usage (simple)
+        memUsed = arr.totalMemoryBytes();
+
+        // print
+        cout << "\n[Performance]\n";
+        auto elapsed_ms = chrono::duration_cast<chrono::milliseconds>(elapsed);
+        cout << "Execution Time: " << elapsed_ms.count() << " milliseconds\n";
+        cout << "Memory Used   : " << memUsed << " bytes\n";
+
         return elapsed.count();
     }
 
@@ -34,8 +46,17 @@ namespace Sorting {
         }
 
         auto end = high_resolution_clock::now();
-        memUsed = 0;
         duration<double> elapsed = end - start;
+
+        // memory usage (simple)
+        memUsed = arr.totalMemoryBytes();
+
+        // print
+        cout << "\n[Performance]\n";
+        auto elapsed_ms = chrono::duration_cast<chrono::milliseconds>(elapsed);
+        cout << "Execution Time: " << elapsed_ms.count() << " milliseconds\n";
+        cout << "Memory Used   : " << memUsed << " bytes\n";
+
         return elapsed.count();
     }
 
@@ -52,8 +73,17 @@ namespace Sorting {
         }
 
         auto end = high_resolution_clock::now();
-        memUsed = 0;
         duration<double> elapsed = end - start;
+
+        // memory usage (simple)
+        memUsed = arr.totalMemoryBytes();
+
+        // print
+        cout << "\n[Performance]\n";
+        auto elapsed_ms = chrono::duration_cast<chrono::milliseconds>(elapsed);
+        cout << "Execution Time: " << elapsed_ms.count() << " milliseconds\n";
+        cout << "Memory Used   : " << memUsed << " bytes\n";
+
         return elapsed.count();
     }
     
@@ -70,8 +100,17 @@ namespace Sorting {
         }
 
         auto end = high_resolution_clock::now();
-        memUsed = 0;
         duration<double> elapsed = end - start;
+
+        // memory usage (simple)
+        memUsed = arr.totalMemoryBytes();
+
+        // print
+        cout << "\n[Performance]\n";
+        auto elapsed_ms = chrono::duration_cast<chrono::milliseconds>(elapsed);
+        cout << "Execution Time: " << elapsed_ms.count() << " milliseconds\n";
+        cout << "Memory Used   : " << memUsed << " bytes\n";
+
         return elapsed.count();
     }
 }
