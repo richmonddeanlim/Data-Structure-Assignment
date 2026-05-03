@@ -1,5 +1,6 @@
 #include "Sorting.hpp"
 #include <chrono>
+#include <iomanip>
 #include <iostream>
 
 using namespace std;
@@ -26,8 +27,8 @@ namespace Sorting {
 
         // print
         cout << "\n[Performance]\n";
-        auto elapsed_ms = chrono::duration_cast<chrono::milliseconds>(elapsed);
-        cout << "Execution Time: " << elapsed_ms.count() << " milliseconds\n";
+        duration<double, milli> elapsed_ms = elapsed;
+        cout << "Execution Time: " << fixed << setprecision(4) << elapsed_ms.count() << " milliseconds\n";
         cout << "Memory Used   : " << memUsed << " bytes\n";
 
         return elapsed.count();
@@ -53,8 +54,8 @@ namespace Sorting {
 
         // print
         cout << "\n[Performance]\n";
-        auto elapsed_ms = chrono::duration_cast<chrono::milliseconds>(elapsed);
-        cout << "Execution Time: " << elapsed_ms.count() << " milliseconds\n";
+        duration<double, milli> elapsed_ms = elapsed;
+        cout << "Execution Time: " << fixed << setprecision(4) << elapsed_ms.count() << " milliseconds\n";
         cout << "Memory Used   : " << memUsed << " bytes\n";
 
         return elapsed.count();
@@ -80,8 +81,8 @@ namespace Sorting {
 
         // print
         cout << "\n[Performance]\n";
-        auto elapsed_ms = chrono::duration_cast<chrono::milliseconds>(elapsed);
-        cout << "Execution Time: " << elapsed_ms.count() << " milliseconds\n";
+        duration<double, milli> elapsed_ms = elapsed;
+        cout << "Execution Time: " << fixed << setprecision(4) << elapsed_ms.count() << " milliseconds\n";
         cout << "Memory Used   : " << memUsed << " bytes\n";
 
         return elapsed.count();
@@ -107,8 +108,8 @@ namespace Sorting {
 
         // print
         cout << "\n[Performance]\n";
-        auto elapsed_ms = chrono::duration_cast<chrono::milliseconds>(elapsed);
-        cout << "Execution Time: " << elapsed_ms.count() << " milliseconds\n";
+        duration<double, milli> elapsed_ms = elapsed;
+        cout << "Execution Time: " << fixed << setprecision(4) << elapsed_ms.count() << " milliseconds\n";
         cout << "Memory Used   : " << memUsed << " bytes\n";
 
         return elapsed.count();
