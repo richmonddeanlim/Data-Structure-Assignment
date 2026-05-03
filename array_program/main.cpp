@@ -296,9 +296,6 @@ static void sortMenu(ResidentArray& residents) {
     else if (criteria == 3) sortTime = Sorting::sortByDistance(residents, memused);
     
     if (sorted) {
-        cout << "\n[Success] Selection Sort completed in " << fixed << setprecision(6) << sortTime << " seconds." << endl;
-        cout << "Memory used: " << memused << " bytes" << endl;
-        
         cout << "\n--- Sorted Results---\n";
         printTable(residents, -1); 
     } else {
