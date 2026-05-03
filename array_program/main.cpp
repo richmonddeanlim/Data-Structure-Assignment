@@ -142,7 +142,6 @@ static void searchMenu(ResidentArray& residents) {
     cout << "1. Age Range" << endl;
     cout << "2. Mode of Transport" << endl;
     cout << "3. Distance Threshold" << endl;
-    cout << "4. Carbon Emission" << endl;
     cout << "Choice: ";
     if (!(cin >> criteria)) {
         cin.clear(); 
@@ -167,11 +166,7 @@ static void searchMenu(ResidentArray& residents) {
         else if (criteria == 3) {
             sortTime = Sorting::sortByDistance(residents, memused);
         }
-
-        else if (criteria == 4) {
-           sortTime = Sorting::sortByEmission(residents, memused);
-        }
-        
+       
         else {
             cout << "Invalid criteria for sorting. Returning." << endl;
             return;
