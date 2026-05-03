@@ -43,8 +43,7 @@ void LinkedList::displayResidents() {
          << setw(20) << "Mode of Transport" 
          << setw(20) << "Daily Distance" 
          << setw(25) << "Carbon Emission Factor" 
-         << setw(25) << "Average Days per Month" 
-         << setw(12) << "City" << endl;
+         << setw(25) << "Average Days per Month" << endl;
     cout << setfill('=') << setw(126) << "" << setfill(' ') << endl;
     while (temp != nullptr) {
         cout << left
@@ -53,8 +52,7 @@ void LinkedList::displayResidents() {
              << setw(20) << temp->data.modeOfTransport 
              << setw(20) << temp->data.dailyDistance 
              << setw(25) << temp->data.carbonEmissionFactor 
-             << setw(25) << temp->data.avgDayPerMonth 
-             << setw(12) << temp->data.city << endl;
+             << setw(25) << temp->data.avgDayPerMonth << endl;
         temp = temp->next;
     }
     cout << setfill('=') << setw(126) << "" << setfill(' ') << endl;    

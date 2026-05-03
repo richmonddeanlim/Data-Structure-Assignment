@@ -5,7 +5,7 @@
 #include <iostream>
 
 // A function from CSVLoaderList header file that takes the filename, the linkedlist to load the data and the city as parameters.
-void CSVLoaderList::loadFile(string filename, LinkedList& list, string city) {
+void CSVLoaderList::loadFile(string filename, LinkedList& list) {
     ifstream file(filename);
     if (file.is_open()) {
         string line;
@@ -29,7 +29,6 @@ void CSVLoaderList::loadFile(string filename, LinkedList& list, string city) {
             r.carbonEmissionFactor = stod(temp);
             getline(s, temp, ',');
             r.avgDayPerMonth = stoi(temp);
-            r.city = city;
             list.addResident(r);
         }; 
     }

@@ -5,5 +5,5 @@
 // The CSVLoaderList class with a public method and includes filename, linkedlist, and city as parameters.
 class CSVLoaderList {
 public:
-    void loadFile(string filename, LinkedList& list, string city);
+    void loadFile(string filename, LinkedList& list);
 };

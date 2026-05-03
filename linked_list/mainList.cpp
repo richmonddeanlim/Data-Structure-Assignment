@@ -234,7 +234,8 @@ void menu (LinkedList& list, string cityname) {
         cout << "3. Remove Resident" << endl;
         cout << "4. Search Resident" << endl;
         cout << "5. Sort Resident" << endl;
-        cout << "6. Back" << endl;
+        cout << "6. Display Memory Usage" << endl;
+        cout << "7. Back" << endl;
         cout << "Select an option: ";
         cin >> option;
         switch(option){
@@ -299,7 +300,6 @@ void menu (LinkedList& list, string cityname) {
                 cin >> r.carbonEmissionFactor;
                 cout << "Enter Average Days per Month: "; 
                 cin >> r.avgDayPerMonth;
-                r.city = cityname;
                 list.addResident(r);
                 break;
             }
@@ -319,14 +319,20 @@ void menu (LinkedList& list, string cityname) {
             case 5:
                 sortMenu(list, false);
                 break;
+
             case 6:
+                cout << "Total memory used by Residents: " << sizeof(Residents) << " bytes" << endl;
+                cout << "Memory used by Node pointers: " << sizeof(Node*) << " bytes" << endl;
+                cout << "Memory used by Node: " << sizeof(Node) << " bytes" << endl;
+                break;
+            case 7:
                 cout << "Going back..." << endl;
                 return;
             default:
                 cout << "Invalid option. Please choose a valid option!" << endl;
                 break;
         }
-    }while (option != 6);
+    }while (option != 7);
 }
 
 // the function to display the menu for all cities.
@@ -339,7 +345,8 @@ void allcities(LinkedList& cityA, LinkedList& cityB, LinkedList& cityC) {
         cout << "3. Remove Resident" << endl;
         cout << "4. Search Resident" << endl;
         cout << "5. Sort Resident" << endl;
-        cout << "6. Back" << endl;
+        cout << "6. Display Memory Usage" << endl;
+        cout << "7. Back" << endl;
         cout << "Select an option: ";
         cin >> option;
         switch(option){
@@ -414,17 +421,8 @@ void allcities(LinkedList& cityA, LinkedList& cityB, LinkedList& cityC) {
                 cin >> r.carbonEmissionFactor;
                 cout << "Enter Average Days per Month: "; 
                 cin >> r.avgDayPerMonth;
-                if (initial == 'A') {
-                    r.city = "City A";
-                }
-                else if (initial == 'B') {
-                    r.city = "City B";
-                }
-                else if (initial == 'C') {
-                    r.city = "City C";
-                }
                 targetList->addResident(r);
-                cout << "Resident is added to " << r.city << "." << endl;
+                cout << "Resident is added." << endl;
                 break;
             }
 
@@ -488,6 +486,16 @@ void allcities(LinkedList& cityA, LinkedList& cityB, LinkedList& cityC) {
             }
 
             case 6:
+                cout << "Total memory used by City A: " << cityA.totalMemoryBytes() << " bytes" << endl;
+                cout << "Total memory used by City B: " << cityB.totalMemoryBytes() << " bytes" << endl;
+                cout << "Total memory used by City C: " << cityC.totalMemoryBytes() << " bytes" << endl;
+                cout << "Total memory used by all cities: " << cityA.totalMemoryBytes() + cityB.totalMemoryBytes() + cityC.totalMemoryBytes() << " bytes" << endl;
+                cout << "Total memory used by Residents: " << sizeof(Residents) << " bytes" << endl;
+                cout << "Memory used by Node pointers: " << sizeof(Node*) << " bytes" << endl;
+                cout << "Memory used by Node: " << sizeof(Node) << " bytes" << endl;
+                break;
+
+            case 7:
                 cout << "Going back..." << endl;
                 return;
 
@@ -495,7 +503,7 @@ void allcities(LinkedList& cityA, LinkedList& cityB, LinkedList& cityC) {
                 cout << "Invalid option. Please choose a valid option!" << endl;
                 break;
         }
-    } while (option != 6);
+    } while (option != 7);
 }
 
 // the function to display the main menu for city selection
@@ -516,9 +524,9 @@ void showMenu() {
 int main() {
     LinkedList cityA, cityB, cityC;
     CSVLoaderList load;
-    load.loadFile("../dataset/dataset1-cityA.csv", cityA, "City A");
-    load.loadFile("../dataset/dataset2-cityB.csv", cityB, "City B");
-    load.loadFile("../dataset/dataset3-cityC.csv", cityC, "City C");
+    load.loadFile("../dataset/dataset1-cityA.csv", cityA);
+    load.loadFile("../dataset/dataset2-cityB.csv", cityB);
+    load.loadFile("../dataset/dataset3-cityC.csv", cityC);
     showMenu();
     int choice;
     cin >> choice;
