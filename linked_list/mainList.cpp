@@ -254,7 +254,7 @@ void menu (LinkedList& list, string cityname) {
                 }
                 cout << "Enter Age: "; 
                 cin >> r.age;
-                cout << "Enter Mode of Transport: "; 
+                cout << "Enter Mode of Transport: " << endl;
                 cout << "1. Bicycle" << endl;
                 cout << "2. Bus" << endl;
                 cout << "3. Car" << endl;
@@ -375,7 +375,7 @@ void allcities(LinkedList& cityA, LinkedList& cityB, LinkedList& cityC) {
                 }
                 cout << "Enter Age: "; 
                 cin >> r.age;
-                cout << "Enter Mode of Transport: "; 
+                cout << "Enter Mode of Transport: " << endl; 
                 cout << "1. Bicycle" << endl;
                 cout << "2. Bus" << endl;
                 cout << "3. Car" << endl;
