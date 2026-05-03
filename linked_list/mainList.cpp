@@ -191,7 +191,7 @@ void searchMenu(LinkedList& list) {
 }
 
 //The menu for sorting
-void sortMenu(LinkedList& list) {
+void sortMenu(LinkedList& list, bool isAllCities = false) {
     int criteria;
     cout << "\n   Sort Residents   " << endl;
     cout << "==============================\n";
@@ -208,20 +208,18 @@ void sortMenu(LinkedList& list) {
     double sortTime = 0;
     size_t memUsed = 0;
     if (criteria == 1) {
-        sortTime = SortingList::sortByAge(list, memUsed);
+        sortTime = SortingList::sortByAge(list, memUsed, isAllCities);
     }
     else if (criteria == 2) {
-        sortTime = SortingList::sortByEmission(list, memUsed);
+        sortTime = SortingList::sortByEmission(list, memUsed, isAllCities);
     }
     else if (criteria == 3) {
-        sortTime = SortingList::sortByDistance(list, memUsed);
+        sortTime = SortingList::sortByDistance(list, memUsed, isAllCities);
     }
     else {
         cout << "Invalid choice. Please choose a valid option!" << endl;
         return;
     }
-    cout << "\n[Success] Selection Sort completed in " << fixed << setprecision(6) << sortTime << " seconds." << endl;
-    cout << "Memory Used: " << memUsed << " bytes" << endl;
     cout << "\n--- Sorted Results---\n";
     list.displayResidents();
 }
@@ -319,7 +317,7 @@ void menu (LinkedList& list, string cityname) {
                 searchMenu(list);
                 break;
             case 5:
-                sortMenu(list);
+                sortMenu(list, false);
                 break;
             case 6:
                 cout << "Going back..." << endl;
@@ -340,7 +338,8 @@ void allcities(LinkedList& cityA, LinkedList& cityB, LinkedList& cityC) {
         cout << "2. Display Residents" << endl;
         cout << "3. Remove Resident" << endl;
         cout << "4. Search Resident" << endl;
-        cout << "5. Back" << endl;
+        cout << "5. Sort Resident" << endl;
+        cout << "6. Back" << endl;
         cout << "Select an option: ";
         cin >> option;
         switch(option){
@@ -476,7 +475,19 @@ void allcities(LinkedList& cityA, LinkedList& cityB, LinkedList& cityC) {
                 break;
             }
 
-            case 5:
+            case 5: {
+                LinkedList allList;
+                Node* temp = cityA.getHead();
+                while(temp) { allList.addResident(temp->data); temp = temp->next; }
+                temp = cityB.getHead();
+                while(temp) { allList.addResident(temp->data); temp = temp->next; }
+                temp = cityC.getHead();
+                while(temp) { allList.addResident(temp->data); temp = temp->next; }
+                sortMenu(allList, true);
+                break;  
+            }
+
+            case 6:
                 cout << "Going back..." << endl;
                 return;
 
@@ -484,7 +495,7 @@ void allcities(LinkedList& cityA, LinkedList& cityB, LinkedList& cityC) {
                 cout << "Invalid option. Please choose a valid option!" << endl;
                 break;
         }
-    } while (option != 5);
+    } while (option != 6);
 }
 
 // the function to display the main menu for city selection
